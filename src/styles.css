@@ -72,10 +72,14 @@ ol {
 }
 
 .main-nav a:hover,
-.main- .breadcrumb-nav {
-  background-color: #f9fafb;
+.main-nav a.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+.breadcrumb-nav {
+  background-color: #fff;
   padding: 15px 20px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #fff;
 }
 
 .breadcrumb-nav ol {
@@ -98,9 +102,50 @@ ol {
   text-decoration: none;
 }
 
+
 .breadcrumb-nav a:hover {
-  text-decoration: underline;
+  text-decoration: wavy;
 }
+
+/* Hamburger Menu Toggle */
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  z-index: 101;
+}
+
+/* The three lines of the hamburger icon */
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  display: block;
+  background-color: #374151;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-toggle-label span::before {
+  content: "";
+  top: -8px;
+}
+.nav-toggle-label span::after {
+  content: "";
+  top: 8px;
+}
+
 /* Hero Section */
 .hero-section {
   background-color: #f3f4f6;
@@ -145,10 +190,6 @@ ol {
   margin: 0 10px;
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
-}
-#primary-button {
-  background-color: #2563eb;
-  color: #ffffff;
 }
 
 .primary-button {
@@ -588,7 +629,7 @@ footer strong {
 .actions-list {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 10px;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -618,16 +659,188 @@ footer strong {
   text-decoration: none;
 }
 
+.action-item a.primary-button {
+  color: white;
+}
+
 .action-item a:hover {
   text-decoration: underline;
 }
-
-/* Responsive Design */
-@media (min-width: 1200px) {
-  .no-wrap {
-    white-space: nowrap;
-  }
+/* Case Studies Page Styles */
+.case-studies-section {
+  background-color: #ffffff;
 }
+
+.case-studies-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.case-studies-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.case-studies-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.case-study-item {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.case-study-item h3 {
+  font-size: 1.75rem;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.case-study-item p {
+  color: #4b5563;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.case-study-item .industry,
+.case-study-item .size,
+.case-study-item .location {
+  margin-bottom: 0.5rem;
+}
+
+.case-study-item strong {
+  color: #111827;
+}
+
+.case-study-item .challenge,
+.case-study-item .solution {
+  margin-bottom: 1.5rem;
+}
+
+.case-study-item .results-container {
+ padding: 1rem 0;
+}
+
+.case-study-item .results {
+  margin-bottom: 1.5rem;
+}
+
+.case-study-item .results li {
+  margin-bottom: 0.5rem;
+  padding-left: 20px;
+  position: relative;
+  font-size: 1rem;
+}
+
+.case-study-item .results li:before {
+  content: "•";
+  color: #2563eb;
+  position: absolute;
+  left: 0;
+}
+
+.case-study-item .quote {
+  font-style: italic;
+  color: #111827;
+  font-size: 1.1rem;
+  border-left: 3px solid #2563eb;
+  padding-left: 15px;
+}
+
+.perfomance-metrics-section,
+.feature-comparison-section,
+.industry-metrics-section {
+  background-color: #f3f4f6;
+}
+
+.table-container {
+  max-width: 900px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+.table-container caption {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.table-container th,
+.table-container td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table-container thead {
+  background-color: #2563eb;
+  color: white;
+}
+
+.table-container tbody tr:nth-child(even) {
+ background-color: #f9fafb;
+}
+
+.roi-calulation-section {
+  background-color: #ffffff;
+}
+
+.roi-metrics-container {
+ max-width: 600px;
+ margin: 0 auto;
+ text-align: left;
+}
+
+.testimonials-section {
+ background-color: #111827;
+ color: white;
+}
+
+.testimonials-container {
+ max-width: 800px;
+ margin: 0 auto;
+}
+
+.testimonial {
+ font-size: 1.2rem;
+ font-style: italic;
+}
+
+.roi-metric {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.roi-metric-list {
+  padding-left: 20px;
+  list-style-type: square;
+  margin: 0;
+}
+
+.roi-metric-list li {
+  font-size: 1.1rem;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.roi-metric-list strong {
+  color: #111827;
+}
+/* Responsive Design */
 @media (max-width: 768px) {
   h1,
   #headline {
@@ -668,11 +881,56 @@ footer strong {
   .stats-list-about {
     grid-template-columns: repeat(2, 1fr);
   }
+  /* Responsive Navigation Styles */
+  .nav-toggle-label {
+    display: block; /* Show hamburger button on mobile */
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    transform: translateX(100%); /* Start off-screen */
+    transition: transform 0.3s ease-in-out;
+    z-index: 100;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 40px;
+  }
+
+  .main-nav a {
+    font-size: 1.5rem;
+  }
+
+  /* Show nav when checkbox is checked */
+  #nav-toggle:checked ~ .main-nav {
+    transform: translateX(0);
+  }
+
+  /* Animate hamburger to an 'X' */
+  #nav-toggle:checked ~ .nav-toggle-label span {
+    background-color: transparent; /* Middle line fades out */
+  }
+  #nav-toggle:checked ~ .nav-toggle-label span::before {
+    transform: rotate(45deg);
+    top: 0;
+  }
+  #nav-toggle:checked ~ .nav-toggle-label span::after {
+    transform: rotate(-45deg);
+    top: 0;
+  }
+
   .contact-page-layout {
     grid-template-columns: 1fr;
-  }
-  .no-wrap {
-    white-space: nowrap;
   }
 }
 

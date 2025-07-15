@@ -17,11 +17,18 @@
         <a href="index.html" class="nav-logo">
           <img src="../assets/tatua-logo.png" alt="Tatua Solutions Logo" />
         </a>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+        <label for="nav-toggle" class="nav-toggle-label">
+          <span></span>
+        </label>
         <nav class="main-nav">
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About Us</a></li>
             <li><a href="contact.html" class="active">Contact</a></li>
+            <li>
+              <a href="case_studies.html"> Case Studies & Data Content</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -49,7 +56,7 @@
       </section>
 
       <div class="contact-page-layout">
-        <section class="contact-form-section">
+        <article class="contact-form-section">
           <form action="#" method="POST" class="contact-form">
             <fieldset>
               <legend>Contact Information</legend>
@@ -135,8 +142,14 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="implementation-timeline">Implementation Timeline</label>
-                <select id="implementation-timeline" name="implementation_timeline" required>
+                <label for="implementation-timeline"
+                  >Implementation Timeline</label
+                >
+                <select
+                  id="implementation-timeline"
+                  name="implementation_timeline"
+                  required
+                >
                   <option value="">Please select...</option>
                   <option value="1-10">Immediate (within 1 month)</option>
                   <option value="11-50">1-3 months</option>
@@ -217,7 +230,7 @@
               <button type="reset" class="secondary-button">Clear Form</button>
             </div>
           </form>
-        </section>
+        </article>
 
         <aside class="contact-sidebar">
           <section class="contact-details-section">
@@ -266,17 +279,29 @@
       </div>
 
       <section class="quick-actions-section">
-        <h2>Quick Actions</h2>
         <div class="actions-list">
           <div class="action-item">
             <h3>Start Free Trial</h3>
-            <p class="no-wrap">Get up and running in minutes with our 14-day free trial.</p>
-            <a href="#" id="primary-button" class="primary-button">Start Trial</a>
+            <p class="no-wrap">
+              Get up and running in minutes with our 14-day free trial.
+            </p>
+            <a href="#" class="primary-button">Start Trial</a>
           </div>
           <div class="action-item">
             <h3>Schedule Demo</h3>
-            <p class="no-wrap">See Tatua in action with a personalized 30-minute demo.</p>
+            <p class="no-wrap">
+              See Tatua in action with a personalized 30-minute demo.
+            </p>
             <a href="#" class="secondary-button">Schedule Now</a>
+          </div>
+          <div class="action-item">
+            <h3 style="white-space: nowrap;">Download Resource</h3>
+            <p class="no-wrap">
+              Access our implementation guide and best practices documentation
+            </p>
+            <a href="#" class="secondary-button"
+              >Download</a
+            >
           </div>
         </div>
       </section>
