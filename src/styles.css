@@ -1,0 +1,450 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #111827;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+
+h1, h2, h3 {
+    line-height: 1.2;
+    margin-top: 0;
+}
+
+p {
+    margin-top: 0;
+}
+
+section {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Global Header & Navigation */
+.site-header {
+    background-color: #ffffff;
+    padding: 15px 20px;
+    border-bottom: 1px solid #E5E7EB;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.main-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo img {
+    height: 40px;
+    vertical-align: middle;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #374151;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px 5px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.main-nav a:hover, .main-
+.breadcrumb-nav {
+    background-color: #F9FAFB;
+    padding: 15px 20px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.breadcrumb-nav ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-nav li:not(:last-child)::after {
+    content: '>';
+    margin: 0 10px;
+    color: #6B7280;
+}
+
+.breadcrumb-nav a {
+    color: #2563EB;
+    text-decoration: none;
+}
+
+.breadcrumb-nav a:hover {
+    text-decoration: underline;
+}
+/* Hero Section */
+.hero-section {
+    background-color: #F3F4F6;
+    padding: 100px 20px;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#headline {
+    font-size: 3rem;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+#tagline {
+    font-size: 1.5rem;
+    color: #374151;
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+}
+
+/* Call to Action Buttons */
+.primary-button, .secondary-button {
+    display: inline-block;
+    padding: 15px 30px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.primary-button {
+    background-color: #2563EB;
+    color: white;
+    border-color: #2563EB;
+}
+
+.primary-button:hover {
+    background-color: #1D4ED8;
+    border-color: #1D4ED8;
+}
+
+.secondary-button {
+    background-color: transparent;
+    color: #2563EB;
+    border-color: #2563EB;
+}
+
+.secondary-button:hover {
+    background-color: #2563EB;
+    color: white;
+}
+
+/* Services Section */
+.services-section {
+    background-color: #ffffff;
+}
+
+.services-section h2 {
+    margin-bottom: 40px;
+}
+
+.services-list ol {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.services-list li {
+    background-color: #F3F4F6;
+    padding: 30px;
+    border-radius: 8px;
+    flex-basis: 300px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.services-list strong {
+    font-size: 1.25rem;
+    display: block;
+    margin-bottom: 10px;
+    color: #2563EB;
+}
+
+/* Stats Section */
+.stats-section {
+    background-color: #111827;
+    color: #ffffff;
+}
+
+.stats-section h2 {
+    margin-bottom: 40px;
+}
+
+.stats-list ul {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.stats-list li {
+    font-size: 1.1rem;
+    min-width: 200px;
+}
+
+.stats-list strong {
+    font-size: 2.5rem;
+    display: block;
+    color: #2563EB;
+}
+/* Footer */
+footer {
+    background-color: #F3F4F6;
+    padding: 40px 20px;
+    font-size: 0.9rem;
+    color: #4B5563;
+}
+
+footer div {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+footer h3 {
+    color: #111827;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+footer strong {
+    color: #111827;
+}
+/* About Page Styles */
+.about-content, .mission-content, .team-content, .stats-content, .values-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about-section h2, .mission-section h2, .team-section h2, .stats-section-about h2, .values-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+.about-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    text-align: left;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.mission-section {
+    background-color: #F3F4F6;
+}
+
+.mission-text p {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #374151;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    text-align: left;
+}
+
+.team-member {
+    background-color: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-member h3 {
+    font-size: 1.5rem;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+.team-member h4 {
+    font-size: 1rem;
+    color: #2563EB;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.team-member dl {
+    margin: 0;
+}
+
+.team-member dt {
+    font-weight: bold;
+    color: #111827;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.team-member dd {
+    margin: 0 0 0.5rem 0;
+    color: #4B5563;
+    font-size: 0.95rem;
+}
+
+.team-member p {
+    margin-bottom: 0.5rem;
+    color: #4B5563;
+    font-size: 0.95rem;
+}
+
+.team-member .bio {
+    margin-top: auto;
+    padding-top: 1rem;
+    font-style: italic;
+    color: #111827;
+}
+
+.team-member a {
+    color: #2563EB;
+}
+
+.stats-section-about {
+    background-color: #ffffff;
+}
+
+.stats-list-about {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.stats-list-about li {
+    background-color: #F9FAFB;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+}
+
+.stats-list-about strong {
+    font-size: 2rem;
+    display: block;
+    color: #2563EB;
+    margin-bottom: 0.5rem;
+}
+
+.values-section {
+    background-color: #F3F4F6;
+}
+
+.values-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    text-align: left;
+}
+
+.value-item h3 {
+    font-size: 1.25rem;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.value-item p {
+    color: #4B5563;
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1, #headline {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    #tagline {
+        font-size: 1.25rem;
+    }
+
+    .about-section h2, .mission-section h2, .team-section h2, .stats-section-about h2, .values-section h2 {
+        font-size: 2rem;
+    }
+
+    .services-list ol, .stats-list ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .services-list li {
+        width: 80%;
+        max-width: 400px;
+    }
+
+    .team-members {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-list-about {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        padding: 40px 15px;
+    }
+
+    .hero-content div {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .primary-button, .secondary-button {
+        width: 80%;
+        margin: 0;
+        padding: 15px;
+    }
+}
