@@ -915,7 +915,7 @@ footer strong {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
-    transform: translateX(100%); /* Start off-screen */
+    transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     z-index: 100;
   }
@@ -932,14 +932,12 @@ footer strong {
     font-size: 1.5rem;
   }
 
-  /* Show nav when checkbox is checked */
   #nav-toggle:checked ~ .main-nav {
     transform: translateX(0);
   }
 
-  /* Animate hamburger to an 'X' */
   #nav-toggle:checked ~ .nav-toggle-label span {
-    background-color: transparent; /* Middle line fades out */
+    background-color: transparent;
   }
   #nav-toggle:checked ~ .nav-toggle-label span::before {
     transform: rotate(45deg);
