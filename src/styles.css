@@ -102,7 +102,6 @@ ol {
   text-decoration: none;
 }
 
-
 .breadcrumb-nav a:hover {
   text-decoration: wavy;
 }
@@ -723,7 +722,7 @@ footer strong {
 }
 
 .case-study-item .results-container {
- padding: 1rem 0;
+  padding: 1rem 0;
 }
 
 .case-study-item .results {
@@ -752,7 +751,7 @@ footer strong {
   padding-left: 15px;
 }
 
-.perfomance-metrics-section,
+.performance-metrics-section,
 .feature-comparison-section,
 .industry-metrics-section {
   background-color: #f3f4f6;
@@ -790,32 +789,54 @@ footer strong {
 }
 
 .table-container tbody tr:nth-child(even) {
- background-color: #f9fafb;
+  background-color: #f9fafb;
+}
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 30px solid cornflowerblue;
+  margin: 50px auto;
+  animation: drop 5s infinite;
 }
 
-.roi-calulation-section {
+@keyframes drop {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.roi-calculation-section {
   background-color: #ffffff;
 }
 
 .roi-metrics-container {
- max-width: 600px;
- margin: 0 auto;
- text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
 }
 
 .testimonials-section {
- background-color: #111827;
- color: white;
+  background-color: #111827;
+  color: white;
 }
 
 .testimonials-container {
- max-width: 800px;
- margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .testimonial {
- font-size: 1.2rem;
- font-style: italic;
+  font-size: 1.2rem;
+  font-style: italic;
 }
 
 .roi-metric {
@@ -934,7 +955,7 @@ footer strong {
   }
 }
 
-@media (max-width: 480px) {
+@media screen and  (max-width: 480px) {
   section {
     padding: 40px 15px;
   }
@@ -955,5 +976,9 @@ footer strong {
   .actions-list {
     flex-direction: column;
     align-items: center;
+  }
+  .stack {
+    width: 100% !important;
+    display: block !important;
   }
 }
