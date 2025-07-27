@@ -17,16 +17,37 @@
         <input type="checkbox" id="nav-toggle" class="nav-toggle" />
         <label for="nav-toggle" class="nav-toggle-label">
           <span></span>
+          <span></span>
+          <span></span>
         </label>
         <nav class="main-nav">
           <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="../index.html">Home</a></li>
             <li><a href="about.html">About Us</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li>
               <a href="case_studies.html" class="active">
                 Case Studies & Data Content</a
               >
+            </li>
+            <li class="nav-controls">
+              <button id="theme-switcher" title="Toggle Theme">🎨</button>
+              <div id="font-control" title="Adjust Font Size">
+                Aa
+                <input
+                  type="range"
+                  id="font-slider"
+                  min="0.8"
+                  max="1.4"
+                  step="0.1"
+                  value="1"
+                  style="
+                    vertical-align: middle;
+                    width: 60px;
+                    margin-left: 0.5rem;
+                  "
+                />
+              </div>
             </li>
           </ul>
         </nav>
@@ -53,29 +74,28 @@
           </p>
         </div>
       </section>
-      <section class="case-studies-section">
-        <div class="case-studies-content">
-          <h2>Our Success Stories</h2>
-          <div class="case-studies-list">
-            <div class="case-study-item">
-              <h3>TechFlow Solutions</h3>
-              <p class="industry">
-                <strong>Industry: </strong>Software Development
-              </p>
-              <p class="size"><strong>Size: </strong>150 employees</p>
-              <p class="location"><strong>Location: </strong>Austin, Texas</p>
-              <p class="challenge">
-                <strong>Challenge:</strong> TechFlow was drowning in support
-                requests with over 400 daily tickets and an 8-hour average
-                response time. Their homegrown system couldn't handle the
-                volume, causing customer frustration and agent burnout.
-              </p>
-              <p class="solution">
-                <strong>Solution:</strong> Implemented Tatua with automated
-                ticket routing, priority escalation, and integration with their
-                existing development tools.
-              </p>
-              <div class="results-container">
+
+      <div class="case-studies-page">
+        <section class="case-studies-section">
+          <div class="case-studies-content">
+            <h2>Our Success Stories</h2>
+            <div class="case-studies-list">
+              <div class="case-study-item">
+                <h3>TechFlow Solutions</h3>
+                <p><strong>Industry: </strong>Software Development</p>
+                <p><strong>Size: </strong>150 employees</p>
+                <p><strong>Location: </strong>Austin, Texas</p>
+                <p>
+                  <strong>Challenge:</strong> TechFlow was drowning in support
+                  requests with over 400 daily tickets and an 8-hour average
+                  response time. Their homegrown system couldn't handle the
+                  volume, causing customer frustration and agent burnout.
+                </p>
+                <p>
+                  <strong>Solution:</strong> Implemented Tatua with automated
+                  ticket routing, priority escalation, and integration with
+                  their existing development tools.
+                </p>
                 <ul class="results">
                   <li>
                     <strong>Response Time:</strong> Reduced from 8 hours to 2
@@ -94,36 +114,30 @@
                     renewal rates
                   </li>
                 </ul>
+                <p class="quote">
+                  "Tatua transformed our support operations overnight. Our
+                  customers are happier, our agents are less stressed, and our
+                  metrics have never looked better." - Jamie Martinez, Head of
+                  Customer Success
+                </p>
               </div>
-              <p class="quote">
-                "Tatua transformed our support operations overnight. Our
-                customers are happier, our agents are less stressed, and our
-                metrics have never looked better." - Jamie Martinez, Head of
-                Customer Success
-              </p>
-            </div>
-            <div class="case-study-item">
-              <h3>HealthCare Partners</h3>
-              <p class="industry">
-                <strong>Industry:</strong> Healthcare Technology
-              </p>
-              <p class="size"><strong>Size:</strong> 500 employees</p>
-              <p class="location">
-                <strong>Location:</strong> Boston, Massachusetts
-              </p>
-              <p class="challenge">
-                <strong>Challenge:</strong> As a healthcare technology company,
-                HealthCare Partners needed HIPAA-compliant ticket management
-                while maintaining fast response times for critical system issues
-                affecting patient care.
-              </p>
-              <p class="solution">
-                <strong>Solution:</strong> Deployed Tatua's enterprise security
-                features with encrypted data storage, audit trails, and
-                role-based access controls specifically designed for healthcare
-                compliance.
-              </p>
-              <div class="results-container">
+              <div class="case-study-item">
+                <h3>HealthCare Partners</h3>
+                <p><strong>Industry:</strong> Healthcare Technology</p>
+                <p><strong>Size:</strong> 500 employees</p>
+                <p><strong>Location:</strong> Boston, Massachusetts</p>
+                <p>
+                  <strong>Challenge:</strong> As a healthcare technology
+                  company, HealthCare Partners needed HIPAA-compliant ticket
+                  management while maintaining fast response times for critical
+                  system issues affecting patient care.
+                </p>
+                <p>
+                  <strong>Solution:</strong> Deployed Tatua's enterprise
+                  security features with encrypted data storage, audit trails,
+                  and role-based access controls specifically designed for
+                  healthcare compliance.
+                </p>
                 <ul class="results">
                   <li>
                     <strong>Compliance:</strong> Maintained 100% HIPAA
@@ -142,33 +156,32 @@
                     18 consecutive months
                   </li>
                 </ul>
-              </div>
-              <p class="quote">
-                "Security and speed don't have to be mutually exclusive. Tatua
-                proved that we can have both." - Dr. Patricia Chen, Chief
-                Technology Officer
-              </p>
-            </div>
-            <div class="case-study-item">
-              <h3>RetailMax</h3>
-              <p class="industry"><strong>Industry:</strong> E-commerce</p>
-              <p class="size"><strong>Size:</strong> 1,200 employees</p>
-              <p class="location">
-                <strong>Location:</strong> seattle, Washington
-              </p>
 
-              <p class="challenge">
-                <strong>Challenge:</strong> RetailMax's customer service team
-                was overwhelmed during peak shopping seasons, with ticket
-                volumes spiking 300% during holidays and response times becoming
-                unacceptable.
-              </p>
-              <p class="solution">
-                <strong>Solution:</strong> Implemented Tatua's scalable
-                infrastructure with seasonal auto-scaling, intelligent routing
-                based on customer value, and integration with their CRM system.
-              </p>
-              <div class="results-container">
+                <p class="quote">
+                  "Security and speed don't have to be mutually exclusive. Tatua
+                  proved that we can have both." - Dr. Patricia Chen, Chief
+                  Technology Officer
+                </p>
+              </div>
+              <div class="case-study-item">
+                <h3>RetailMax</h3>
+                <p><strong>Industry:</strong> E-commerce</p>
+                <p><strong>Size:</strong> 1,200 employees</p>
+                <p><strong>Location:</strong> seattle, Washington</p>
+
+                <p>
+                  <strong>Challenge:</strong> RetailMax's customer service team
+                  was overwhelmed during peak shopping seasons, with ticket
+                  volumes spiking 300% during holidays and response times
+                  becoming unacceptable.
+                </p>
+                <p>
+                  <strong>Solution:</strong> Implemented Tatua's scalable
+                  infrastructure with seasonal auto-scaling, intelligent routing
+                  based on customer value, and integration with their CRM
+                  system.
+                </p>
+
                 <ul class="results">
                   <li>
                     <strong>Peak Performance:</strong> Handled 300% volume
@@ -187,243 +200,242 @@
                     from faster issue resolution
                   </li>
                 </ul>
+                <p class="quote">
+                  "Last Black Friday was our smoothest ever, despite record
+                  traffic. Tatua's scaling capabilities are phenomenal." -
+                  Michael Torres, VP of Customer Experience
+                </p>
               </div>
-              <p class="quote">
-                "Last Black Friday was our smoothest ever, despite record
-                traffic. Tatua's scaling capabilities are phenomenal." - Michael
-                Torres, VP of Customer Experience
-              </p>
             </div>
           </div>
-        </div>
-      </section>
-      <section class="performance-metrics-section">
-        <h2>Performance Metrics</h2>
-        <div class="table-container">
-          <table>
-            <caption>
-              Tatua Implementation Results - Before vs After Comparison
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Metric</th>
-                <th scope="col">Before Tatua</th>
-                <th scope="col">After Tatua</th>
-                <th scope="col">Improvement</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Average Response Time</th>
-                <td>6.5 hours</td>
-                <td>1.8 hours</td>
-                <td>72% faster</td>
-              </tr>
-              <tr>
-                <th scope="row">Customer Satisfaction</th>
-                <td>3.2/5 stars</td>
-                <td>4.8/5 stars</td>
-                <td>50% increase</td>
-              </tr>
-              <tr>
-                <th scope="row">First Contact Resolution</th>
-                <td>45%</td>
-                <td>78%</td>
-                <td>73% improvement</td>
-              </tr>
-              <tr>
-                <th scope="row">Ticket Resolution Time</th>
-                <td>24 hours</td>
-                <td>8 hours</td>
-                <td>67% faster</td>
-              </tr>
-              <tr>
-                <th scope="row">Agent Productivity</th>
-                <td>15 tickets/day</td>
-                <td>28 tickets/day</td>
-                <td>87% increase</td>
-              </tr>
-              <tr>
-                <th scope="row">Customer Retention</th>
-                <td>82%</td>
-                <td>94%</td>
-                <td>15% improvement</td>
-              </tr>
-              <tr>
-                <th scope="row">Support Cost per Ticket</th>
-                <td>$12.50</td>
-                <td>$7.80</td>
-                <td>38% reduction</td>
-              </tr>
-              <tr>
-                <th scope="row">Escalation Rate</th>
-                <td>18%</td>
-                <td>6%</td>
-                <td>67% reduction</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section class="feature-comparison-section">
-        <h2>Feature Comparison</h2>
-        <div class="table-container">
-          <table>
-            <caption>
-              Tatua Pricing Plans - Feature Comparison
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Feature</th>
-                <th scope="col">Basic Plan</th>
-                <th scope="col">Pro Plan</th>
-                <th scope="col">Enterprise</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Monthly Ticket Volume</th>
-                <td>1,000</td>
-                <td>10,000</td>
-                <td>Unlimited</td>
-              </tr>
-              <tr>
-                <th scope="row">Agent Users</th>
-                <td>5</td>
-                <td>25</td>
-                <td>Unlimited</td>
-              </tr>
-              <tr>
-                <th scope="row">Customer Portal</th>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Customizable</td>
-              </tr>
-              <tr>
-                <th scope="row">Email Integration</th>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Advanced</td>
-              </tr>
-              <tr>
-                <th scope="row">API Access</th>
-                <td>Limited</td>
-                <td>Full</td>
-                <td>Full + Priority</td>
-              </tr>
-              <tr>
-                <th scope="row">Integrations</th>
-                <td>10</td>
-                <td>50</td>
-                <td>All Available</td>
-              </tr>
-              <tr>
-                <th scope="row">Custom Fields</th>
-                <td>5</td>
-                <td>25</td>
-                <td>Unlimited</td>
-              </tr>
-              <tr>
-                <th scope="row">Automation Rules</th>
-                <td>10</td>
-                <td>50</td>
-                <td>Unlimited</td>
-              </tr>
-              <tr>
-                <th scope="row">SLA Management</th>
-                <td>Basic</td>
-                <td>Advanced</td>
-                <td>Enterprise</td>
-              </tr>
-              <tr>
-                <th scope="row">Reporting</th>
-                <td>Standard</td>
-                <td>Advanced</td>
-                <td>Custom</td>
-              </tr>
-              <tr>
-                <th scope="row">Support Level</th>
-                <td>Email</td>
-                <td>Email + Chat</td>
-                <td>24/7 Phone</td>
-              </tr>
-              <tr>
-                <th scope="row">Implementation</th>
-                <td>Self-service</td>
-                <td>Guided</td>
-                <td>Dedicated Manager</td>
-              </tr>
-              <tr>
-                <th scope="row">Monthly Price</th>
-                <td>$29</td>
-                <td>$99</td>
-                <td>Custom Pricing</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section class="industry-metrics-section">
-        <h2>Industry Metrics</h2>
-        <div class="table-container">
-          <table>
-            <caption>
-              Industry Benchmarks vs Tatua Customer Performance
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Industry</th>
-                <th scope="col">Industry Average Response</th>
-                <th scope="col">Tatua Customer Average</th>
-                <th scope="col">Improvement</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Technology</th>
-                <td>5.2 hours</td>
-                <td>1.6 hours</td>
-                <td>69% better</td>
-              </tr>
-              <tr>
-                <th scope="row">Healthcare</th>
-                <td>3.8 hours</td>
-                <td>1.2 hours</td>
-                <td>68% better</td>
-              </tr>
-              <tr>
-                <th scope="row">E-commerce</th>
-                <td>4.5 hours</td>
-                <td>1.4 hours</td>
-                <td>69% better</td>
-              </tr>
-              <tr>
-                <th scope="row">Financial Services</th>
-                <td>2.9 hours</td>
-                <td>0.8 hours</td>
-                <td>72% better</td>
-              </tr>
-              <tr>
-                <th scope="row">Manufacturing</th>
-                <td>8.1 hours</td>
-                <td>2.3 hours</td>
-                <td>72% better</td>
-              </tr>
-              <tr>
-                <th scope="row">Education</th>
-                <td>6.7 hours</td>
-                <td>2.1 hours</td>
-                <td>69% better</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section class="roi-calculation-section">
-        <h2>Calculate Your Potential ROI</h2>
-        <p>Based on our customer data, here's what companies typically save</p>
-        <div class="arrow-down"></div>
-        <div class="roi-metrics-container">
+        </section>
+        <section>
+          <h2>Performance Metrics</h2>
+          <div class="table-container">
+            <table>
+              <caption>
+                Tatua Implementation Results - Before vs After Comparison
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Metric</th>
+                  <th scope="col">Before Tatua</th>
+                  <th scope="col">After Tatua</th>
+                  <th scope="col">Improvement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Average Response Time</th>
+                  <td>6.5 hours</td>
+                  <td>1.8 hours</td>
+                  <td>72% faster</td>
+                </tr>
+                <tr>
+                  <th scope="row">Customer Satisfaction</th>
+                  <td>3.2/5 stars</td>
+                  <td>4.8/5 stars</td>
+                  <td>50% increase</td>
+                </tr>
+                <tr>
+                  <th scope="row">First Contact Resolution</th>
+                  <td>45%</td>
+                  <td>78%</td>
+                  <td>73% improvement</td>
+                </tr>
+                <tr>
+                  <th scope="row">Ticket Resolution Time</th>
+                  <td>24 hours</td>
+                  <td>8 hours</td>
+                  <td>67% faster</td>
+                </tr>
+                <tr>
+                  <th scope="row">Agent Productivity</th>
+                  <td>15 tickets/day</td>
+                  <td>28 tickets/day</td>
+                  <td>87% increase</td>
+                </tr>
+                <tr>
+                  <th scope="row">Customer Retention</th>
+                  <td>82%</td>
+                  <td>94%</td>
+                  <td>15% improvement</td>
+                </tr>
+                <tr>
+                  <th scope="row">Support Cost per Ticket</th>
+                  <td>$12.50</td>
+                  <td>$7.80</td>
+                  <td>38% reduction</td>
+                </tr>
+                <tr>
+                  <th scope="row">Escalation Rate</th>
+                  <td>18%</td>
+                  <td>6%</td>
+                  <td>67% reduction</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="feature-comparison-section">
+          <h2>Feature Comparison</h2>
+          <div class="table-container">
+            <table>
+              <caption>
+                Tatua Pricing Plans - Feature Comparison
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Basic Plan</th>
+                  <th scope="col">Pro Plan</th>
+                  <th scope="col">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Monthly Ticket Volume</th>
+                  <td>1,000</td>
+                  <td>10,000</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Agent Users</th>
+                  <td>5</td>
+                  <td>25</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Customer Portal</th>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                  <td>Customizable</td>
+                </tr>
+                <tr>
+                  <th scope="row">Email Integration</th>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                  <td>Advanced</td>
+                </tr>
+                <tr>
+                  <th scope="row">API Access</th>
+                  <td>Limited</td>
+                  <td>Full</td>
+                  <td>Full + Priority</td>
+                </tr>
+                <tr>
+                  <th scope="row">Integrations</th>
+                  <td>10</td>
+                  <td>50</td>
+                  <td>All Available</td>
+                </tr>
+                <tr>
+                  <th scope="row">Custom Fields</th>
+                  <td>5</td>
+                  <td>25</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Automation Rules</th>
+                  <td>10</td>
+                  <td>50</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">SLA Management</th>
+                  <td>Basic</td>
+                  <td>Advanced</td>
+                  <td>Enterprise</td>
+                </tr>
+                <tr>
+                  <th scope="row">Reporting</th>
+                  <td>Standard</td>
+                  <td>Advanced</td>
+                  <td>Custom</td>
+                </tr>
+                <tr>
+                  <th scope="row">Support Level</th>
+                  <td>Email</td>
+                  <td>Email + Chat</td>
+                  <td>24/7 Phone</td>
+                </tr>
+                <tr>
+                  <th scope="row">Implementation</th>
+                  <td>Self-service</td>
+                  <td>Guided</td>
+                  <td>Dedicated Manager</td>
+                </tr>
+                <tr>
+                  <th scope="row">Monthly Price</th>
+                  <td>$29</td>
+                  <td>$99</td>
+                  <td>Custom Pricing</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section>
+          <h2>Industry Metrics</h2>
+          <div class="table-container">
+            <table>
+              <caption>
+                Industry Benchmarks vs Tatua Customer Performance
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Industry</th>
+                  <th scope="col">Industry Average Response</th>
+                  <th scope="col">Tatua Customer Average</th>
+                  <th scope="col">Improvement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Technology</th>
+                  <td>5.2 hours</td>
+                  <td>1.6 hours</td>
+                  <td>69% better</td>
+                </tr>
+                <tr>
+                  <th scope="row">Healthcare</th>
+                  <td>3.8 hours</td>
+                  <td>1.2 hours</td>
+                  <td>68% better</td>
+                </tr>
+                <tr>
+                  <th scope="row">E-commerce</th>
+                  <td>4.5 hours</td>
+                  <td>1.4 hours</td>
+                  <td>69% better</td>
+                </tr>
+                <tr>
+                  <th scope="row">Financial Services</th>
+                  <td>2.9 hours</td>
+                  <td>0.8 hours</td>
+                  <td>72% better</td>
+                </tr>
+                <tr>
+                  <th scope="row">Manufacturing</th>
+                  <td>8.1 hours</td>
+                  <td>2.3 hours</td>
+                  <td>72% better</td>
+                </tr>
+                <tr>
+                  <th scope="row">Education</th>
+                  <td>6.7 hours</td>
+                  <td>2.1 hours</td>
+                  <td>69% better</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="roi-calculation-section">
+          <h2>Calculate Your Potential ROI</h2>
+          <p>
+            Based on our customer data, here's what companies typically save
+          </p>
           <div class="roi-metric">
             <ul class="roi-metric-list">
               <li>
@@ -442,11 +454,9 @@
               </li>
             </ul>
           </div>
-        </div>
-      </section>
-      <section class="testimonials-section">
-        <h2>Customer Testimonials</h2>
-        <div class="testimonials-container">
+        </section>
+        <section>
+          <h2>Customer Testimonials</h2>
           <div class="testimonial">
             <ul>
               <li>
@@ -471,8 +481,8 @@
               </li>
             </ul>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
     <footer>
       <div>
@@ -486,5 +496,6 @@
         <p>&copy; 2025 Tatua Solutions Inc.</p>
       </div>
     </footer>
+    <script src="script.js"></script>
   </body>
 </html>
