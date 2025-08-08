@@ -1,64 +1,6 @@
 @font-face {
   font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-Thin.ttf") format("truetype");
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-ExtraLight.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LexendDeca";
-  src: url("assets/fonts/static/LexendDeca-Black.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
+  src: url("../assets/fonts/LexendDeca.ttf") format("truetype");
 }
 
 * {
@@ -68,12 +10,12 @@
 }
 
 :root {
-  --base-font-size: 16px;
+  --base-font-size: 14px;
   --font-scale: 1;
-  --heading-1-size: calc(2rem * var(--font-scale));
-  --heading-2-size: calc(1.5rem * var(--font-scale));
+  --heading-1-size: calc(1.5rem * var(--font-scale));
+  --heading-2-size: calc(1.2rem * var(--font-scale));
   --font-size-nav: calc(1.2rem * var(--font-scale));
-  --font-size-button: calc(1.2rem * var(--font-scale));
+  --font-size-button: calc(1rem * var(--font-scale));
   --primary-color: #7c3aed;
   --primary-hover: var(--purple-500);
   --secondary-hover: var(--orange-main);
@@ -106,7 +48,7 @@
   --brown-900: #3d2300;
   --orange-200: #fbb040;
 
-  /* Orange Accent Colors - Enhanced for Required Fields */
+  /* Orange Accent Colors - For Required Fields */
   --orange-light: #fbb040;
   --orange-main: #f56500;
   --orange-dark: #c53030;
@@ -130,9 +72,33 @@ body {
   line-height: 1.6;
   background-color: var(--background-color);
   color: var(--text-color);
+  font-size: var(--base-font-size);
+  width: 100vw;
 }
 
+h1 {
+  font-size: var(--heading-1-size);
+}
+
+h2 {
+  font-size: var(--heading-2-size);
+}
+body,
+h1,
+h2,
+p,
+li,
+a,
+span {
+  transition: font-size 0.3s ease;
+}
+
+.home-container {
+  display: grid;
+  grid-template-rows: auto 3fr auto;
+}
 header {
+  width: 100vw;
   background-color: var(--header-background);
 }
 
@@ -141,10 +107,10 @@ header div {
   grid-template-columns: 1fr auto;
   align-items: center;
   padding: 1rem;
+  justify-content: space-between;
 }
-
 header div a img {
-  width: 50%;
+  width: 8rem;
 }
 
 .nav-toggle {
@@ -169,7 +135,7 @@ header div a img {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-left: auto; /* Push to far right */
+  margin-left: auto;
 }
 
 .nav-controls button,
@@ -203,7 +169,6 @@ header div a img {
   cursor: pointer;
 }
 
-/* Hamburger to X Transition */
 .nav-toggle:checked + .nav-toggle-label span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
@@ -216,7 +181,6 @@ header div a img {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Show Navigation when toggled */
 .nav-toggle:checked ~ .main-nav {
   display: block;
 }
@@ -245,31 +209,6 @@ nav.main-nav a {
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  padding: 0;
-  justify-self: start;
-}
-h1 {
-  font-size: var(--heading-1-size);
-}
-
-h2 {
-  font-size: var(--heading-2-size);
-}
-body,
-h1,
-h2,
-p,
-li,
-a,
-span {
-  transition: font-size 0.3s ease;
-}
 
 nav.main-nav a:hover {
   background-color: rgba(0, 0, 0, 0.1);
@@ -277,45 +216,51 @@ nav.main-nav a:hover {
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
   padding: 1rem;
-  display: block;
 }
 .hero-section p {
   padding-block: 0.5rem;
   padding-inline: 1rem;
-}
-header div {
-  display: flex;
-  margin: 0 auto;
-  justify-content: space-between;
 }
 .hero-section div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
-  text-align: center;
-  min-height: fit-content;
+  text-align: start;
 }
 .hero-section div img {
-  width: 100%;
-  height: auto;
+  width: 100vw;
+  padding: 1rem;
   margin: 0 auto;
-  padding: 1em;
 }
-.hero-content {
+.hero-section > .hero-head {
+  width: 100vw;
+  padding-inline: 1rem;
+}
+.hero-section > .hero-head > h1 {
+  color: var(--primary-700);
+}
+.hero-section > .hero-head > h2 {
+  padding: 0;
+  color: var(--primary-600);
+  margin-bottom: 1rem;
+  text-align: start;
+}
+.hero-section > .hero-head > p {
+  padding: 0;
+  color: var(--primary-500);
+  text-align: start;
+}
+.hero-section div > .hero-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 1rem;
   background-color: var(--background-color);
-  text-align: center;
-  min-height: 50vh;
-}
-.hero-content div {
-  display: flex;
   gap: 1rem;
 }
 .primary-button {
@@ -347,8 +292,7 @@ header div {
   color: var(--purple-900);
 }
 .services-section {
-  width: fit-content;
-  margin: 0 auto;
+  width: 100vw;
   padding: 1rem;
   text-align: center;
   background-color: var(--background-color);
@@ -361,18 +305,29 @@ header div {
 }
 .services-list {
   display: flex;
-  justify-content: space-between;
-  padding: 0.25rem;
-  white-space: normal;
+  overflow: scroll;
+  padding-bottom: 1rem;
 }
 .service-card {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
-  width: 30%;
-  text-align: center;
+  margin-inline: 1rem;
   transition: transform 0.3s;
+}
+.service-card > div {
+  flex: 1;
+  display: flex;
+  padding: 1rem;
+  column-gap: 1rem;
+}
+.service-card > div > strong {
+  text-wrap: nowrap;
+}
+.service-card > p {
+  padding-inline: 1rem;
+  text-align: start;
 }
 .service-card .icon {
   font-size: var(--heading-1-size);
@@ -1135,8 +1090,35 @@ section p {
   font-size: var(--base-font-size);
   color: var(--primary-900);
 }
-/* Media Query for Larger Screens */
+
 @media (min-width: 768px) {
+  .about-main {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    gap: 20px;
+  }
+
+  .about-section {
+    grid-column: 1;
+  }
+
+  .mission-section {
+    grid-column: 1;
+  }
+
+  .team-section {
+    grid-column: 2;
+  }
+
+  .stats-section-about {
+    grid-column: 2;
+  }
+
+  .values-section {
+    grid-column: 1;
+  }
+
   .page-header-content h1,
   .page-header-content h2 {
     text-align: center;
@@ -1198,11 +1180,11 @@ section p {
     margin-block-start: 1rem;
   }
   .stats-list {
-    padding: 2.5rem;
+    width: 100vw;
   }
   .stats-list ul {
     margin: 0 auto;
-    width: 50%;
+    width: 70vw;
   }
   .nav-toggle-label {
     display: none;
@@ -1211,18 +1193,12 @@ section p {
   nav.main-nav {
     display: flex;
     font-size: var(--font-size-nav);
+    align-items: center;
   }
 
   nav.main-nav li {
     margin: 0 1rem;
   }
-  header div {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    padding: 1rem;
-    justify-content: space-between;
-  }
-
   header div a {
     width: fit-content;
     height: fit-content;
@@ -1244,13 +1220,18 @@ section p {
   }
   .hero-section div {
     display: grid;
+    grid-template-rows: 1fr auto;
+  }
+  .hero-section div:nth-child(2) {
+    display: grid;
     grid-template-columns: 1fr auto;
   }
   .hero-section div img {
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    padding: 1em;
+    padding-block: 1rem;
+    margin-right: 3rem;
+    padding-inline: 0;
+    width: 50%;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
   .hero-content {
     flex-direction: row;
@@ -1264,11 +1245,12 @@ section p {
     font-size: var(--font-size-button);
   }
   .service-card {
-    width: 90%;
-    margin-bottom: 1rem;
+    padding: 0;
+    margin-inline: 0;
   }
 
   .services-list {
+    margin-inline: 1.5rem;
     flex-direction: row;
     gap: 1.25rem;
     white-space: pre-line;

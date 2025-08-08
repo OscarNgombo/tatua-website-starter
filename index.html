@@ -16,11 +16,14 @@
     <link rel="stylesheet" href="src/styles.css" />
   </head>
   <body>
-    <div>
+    <div class="home-container">
       <header>
         <div>
           <a href="index.html">
-            <img src="assets/tatua-logo.png" alt="Tatua Solutions Logo" />
+            <img
+              src="./assets/images/tatua-logo.png"
+              alt="Tatua Solutions Logo"
+            />
           </a>
           <input type="checkbox" id="nav-toggle" class="nav-toggle" />
           <label for="nav-toggle" class="nav-toggle-label">
@@ -36,40 +39,41 @@
               <li>
                 <a href="src/case_studies.html"> Case Studies & Data Content</a>
               </li>
-              <li class="nav-controls">
-                <button id="theme-switcher" title="Toggle Theme">🎨</button>
-                <div id="font-control" title="Adjust Font Size">
-                  Aa
-                  <input
-                    type="range"
-                    id="font-slider"
-                    min="0.8"
-                    max="1.4"
-                    step="0.1"
-                    value="1"
-                    style="
-                      vertical-align: middle;
-                      width: 60px;
-                      margin-left: 0.5rem;
-                    "
-                  />
-                </div>
-              </li>
             </ul>
+            <li class="nav-controls">
+              <button id="theme-switcher" title="Toggle Theme">🎨</button>
+              <div id="font-control" title="Adjust Font Size">
+                Aa
+                <input
+                  type="range"
+                  id="font-slider"
+                  min="0.8"
+                  max="1.4"
+                  step="0.1"
+                  value="1"
+                  style="
+                    vertical-align: middle;
+                    width: 60px;
+                    margin-left: 0.5rem;
+                  "
+                />
+              </div>
+            </li>
           </nav>
         </div>
       </header>
       <main>
-        <!-- hero section -->
         <section class="hero-section">
-          <h1>Streamline Your Support Operations</h1>
-          <h2>
-            Enterprise-grade ticketing system that scales with your business
-          </h2>
-          <p>
-            Join 500+ companies using Tatua to manage customer support, track
-            issues, and deliver exceptional service experiences
-          </p>
+          <div class="hero-head">
+            <h1>Streamline Your Support Operations</h1>
+            <h2>
+              Enterprise-grade ticketing system that scales with your business
+            </h2>
+            <p>
+              Join 500+ companies using Tatua to manage customer support, track
+              issues, and deliver exceptional service experiences
+            </p>
+          </div>
           <div>
             <img
               class="hero-img"
@@ -77,42 +81,37 @@
               alt="Support Animation"
             />
             <div class="hero-content">
-              <!-- Call to Action Buttons -->
-              <div>
-                <button class="primary-button">Start Free Trial</button>
-                <button class="secondary-button">Schedule Demo</button>
-              </div>
+              <button class="primary-button">Start Free Trial</button>
+              <button class="secondary-button">Schedule Demo</button>
             </div>
           </div>
         </section>
-        <!-- Services Section -->
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        />
-
         <section class="services-section">
           <h2>Why Choose Tatua?</h2>
           <div class="services-list">
             <div class="service-card">
-              <i class="fas fa-bolt icon"></i>
-              <strong>Lightning Fast Resolution</strong>
+              <div>
+                <i class="fas fa-bolt icon"></i>
+                <strong>Lightning Fast Resolution</strong>
+              </div>
               <p>Average ticket resolution time reduced by 60%</p>
             </div>
             <div class="service-card">
-              <i class="fas fa-lock icon"></i>
-              <strong>Enterprise Security</strong>
+              <div>
+                <i class="fas fa-lock icon"></i>
+                <strong>Enterprise Security</strong>
+              </div>
               <p>SOC 2 compliant with end-to-end encryption</p>
             </div>
             <div class="service-card">
-              <i class="fas fa-plug icon"></i>
-              <strong>Seamless Integration</strong>
+              <div>
+                <i class="fas fa-plug icon"></i>
+                <strong>Seamless Integration</strong>
+              </div>
               <p>Connects with Slack, Teams, and 200+ business tools</p>
             </div>
           </div>
         </section>
-
-        <!-- Stats Section -->
         <section class="stats-section">
           <h2>Our Achievements</h2>
           <div class="stats-list">

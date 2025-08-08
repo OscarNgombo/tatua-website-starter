@@ -35,6 +35,10 @@ themeSwitcher.addEventListener("click", () => {
     isPurple ? "var(--brown-400)" : "var(--primary-400)"
   );
   document.documentElement.style.setProperty(
+    "--primary-500",
+    isPurple ? "var(--brown-500)" : "var(--primary-500)"
+  );
+  document.documentElement.style.setProperty(
     "--primary-100",
     isPurple ? "var(--brown-100)" : "var(--primary-100)"
   );
