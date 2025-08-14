@@ -261,7 +261,7 @@ main {
   justify-content: center;
   padding: 1rem;
   background-color: var(--background-color);
-  gap: 1rem;
+  column-gap: 1rem;
 }
 .primary-button {
   background-color: var(--primary-color);
@@ -275,7 +275,7 @@ main {
 }
 .secondary-button {
   background-color: var(--orange-light);
-  border: 2px solid var(--orange-light);
+  border:none;
   border-radius: 5px;
   padding: 0.75rem 1.5rem;
   font-size: var(--font-size-button);
@@ -1224,14 +1224,11 @@ section p {
   }
   .hero-section div:nth-child(2) {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 1fr;
   }
   .hero-section div img {
     padding-block: 1rem;
-    margin-right: 3rem;
-    padding-inline: 0;
     width: 50%;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
   .hero-content {
     flex-direction: row;
