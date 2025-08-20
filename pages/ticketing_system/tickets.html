@@ -1,10 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Tickets - Tatua Solutions</title>
+    <meta
+      name="description"
+      content="View and manage your support tickets with Tatua Solutions."
+    />
+    <link rel="stylesheet" href="../../styles/styles.css" />
+    <link rel="stylesheet" href="../../styles/ticketing.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="icon" type="image/png" href="../../assets/tatua-favicon.png" />
+  </head>
+  <body class="ticketing-page">
+    <header class="site-header">
+      <div class="main-header-content">
+        <a href="../../index.html" class="nav-logo">
+          <img
+            src="../../assets/images/tatua-logo.png"
+            alt="Tatua Solutions Logo"
+          />
+        </a>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+        <label for="nav-toggle" class="nav-toggle-label">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="raise_ticket.html" class="active">Raise Ticket</a></li>
+            <li><a href="tickets.html">My Tickets</a></li>
+            <li id="logout-nav-item" style="display: list-item">
+              <a href="#" id="logout-link">Logout</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="ticket-main">
+      <div class="ticket-section">
+        <div class="ticket-header">
+          <h2></h2>
+          <button class="refresh-button">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+        <div class="table-container">
+          <table>
+            <caption class="sr-only">
+              Your recent support tickets
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Ticket ID</th>
+                <th scope="col">Raised By</th>
+                <th scope="col">Ticket Details</th>
+                <th scope="col">Date Created</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ticket-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script src="../../js/script.js"></script>
+  </body>
 </html>
