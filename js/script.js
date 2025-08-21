@@ -236,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
               : "",
         };
 
-        // 3. Retrieve existing tickets, add the new one, and save back to sessionStorage
         const tickets = JSON.parse(sessionStorage.getItem("tickets")) || [];
         tickets.push(newTicket);
         sessionStorage.setItem("tickets", JSON.stringify(tickets));
