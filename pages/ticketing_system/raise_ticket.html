@@ -19,12 +19,18 @@
   <body class="ticketing-page">
     <header class="site-header">
       <div class="main-header-content">
-        <a href="../../index.html" class="nav-logo">
-          <img
-            src="../../assets/images/tatua-logo.png"
-            alt="Tatua Solutions Logo"
-          />
-        </a>
+        <div class="nav-custom">
+          <a href="../../index.html" class="nav-logo">
+            <img
+              src="../../assets/images/tatua-logo.png"
+              alt="Tatua Solutions Logo"
+            />
+          </a>
+          <ul>
+            <li><a href="raise_ticket.html" class="active">Raise Ticket</a></li>
+            <li><a href="tickets.html">Tickets List</a></li>
+          </ul>
+        </div>
         <input type="checkbox" id="nav-toggle" class="nav-toggle" />
         <label for="nav-toggle" class="nav-toggle-label">
           <span></span>
@@ -33,98 +39,104 @@
         </label>
         <nav class="main-nav">
           <ul>
-            <li><a href="raise_ticket.html" class="active">Raise Ticket</a></li>
-            <li><a href="tickets.html">My Tickets</a></li>
-            <li id="logout-nav-item" style="display: list-item;">
-              <a href="#" id="logout-link">Logout</a>
+            <li id="logout-nav-item" style="display: list-item">
+              <a href="#" id="logout-link"></a>
             </li>
           </ul>
         </nav>
       </div>
     </header>
-
     <main class="ticket-main">
-        <div class="ticket-container">
-          <p>Have any enquiries? Fill this form and we will get back to you as soon as possible</p>
-          <form class="ticket-form">
-            <div class="form-group">
-              <label for="full-name">Full Name</label>
+      <div class="ticket-container">
+        <p>
+          Have any enquiries? Fill this form and we will get back to you as soon
+          as possible
+        </p>
+        <form class="ticket-form">
+          <div class="form-group">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" name="full_name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject:</label>
+            <select name="subject" id="subject">
+              <option value=""></option>
+              <option value="bug_report">Bug Report</option>
+              <option value="feature_request">Feature Request</option>
+              <option value="technical_debt">Technical Debt</option>
+              <option value="security_vulnerability">
+                Security Vulnerability
+              </option>
+              <option value="infrastructure">Infrastructure Issue</option>
+              <option value="">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="description">Message:</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="5"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group-radio">
+            <p>Preferred Contact Method</p>
+            <div>
               <input
-                type="text"
-                id="full-name"
-                name="full_name"
+                type="radio"
+                id="contact-email"
+                name="contact_method"
+                value="email"
+                checked
+              />
+              <label for="contact-email">Email</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="contact-phone"
+                name="contact_method"
+                value="phone"
+              />
+              <label for="contact-phone">Phone</label>
+            </div>
+          </div>
+          <div class="form-group let">
+            <label for="attachment">Attachment</label>
+            <div class="file-input-container">
+              <input
+                type="file"
+                id="attachment"
+                name="attachment"
+                class="file-input-hidden"
                 required
               />
+              <label for="attachment" class="file-input-button"
+                >Choose File</label
+              >
+              <span id="file-name-display" class="file-name"
+                >No file chosen</span
+              >
             </div>
-            <div class="form-group">
-              <label for="email">Email Address:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone Number:</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="subject">Subject:</label>
-              <select name="subject" id="subject">
-                <option value=""></option>
-                <option value="bug_report">Bug Report</option>
-                <option value="feature_request">Feature Request</option>
-                <option value="technical_debt">Technical Debt</option>
-                <option value="security_vulnerability">Security Vulnerability</option>
-                <option value="infrastructure">Infrastructure Issue</option>
-                <option value="">Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="description">Message:</label>
-              <textarea
-                id="description"
-                name="description"
-                rows="5"
-                required
-              ></textarea>
-            </div>
-            <div class="form-group-radio">
-              <p>Preferred Contact Method</p>
-              <div>
-                <input type="radio" id="contact-email" name="contact_method" value="email" checked />
-                <label for="contact-email">Email</label>
-              </div>
-              <div>
-                <input type="radio" id="contact-phone" name="contact_method" value="phone" />
-                <label for="contact-phone">Phone</label>
-              </div>
-            </div>
-            <div class="form-group let">
-              <label for="attachment">Attachment</label>
-              <div class="file-input-container">
-                <input type="file" id="attachment" name="attachment" class="file-input-hidden" required/>
-                <label for="attachment" class="file-input-button">Choose File</label>
-                <span id="file-name-display" class="file-name">No file chosen</span>
-              </div>
-            </div>
-            <div class="form-group-checkbox">
-              <input type="checkbox" id="terms" name="terms" required />
-              <label for="terms">I agree to the Terms of Service</label>
-            </div>
-            <div class="form-actions">
-              <button type="submit" class="primary-button">
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div class="form-group-checkbox">
+            <input type="checkbox" id="terms" name="terms" required />
+            <label for="terms">I agree to the Terms of Service</label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="primary-button">Submit</button>
+          </div>
+        </form>
+      </div>
     </main>
     <script src="../../js/script.js"></script>
   </body>

@@ -220,32 +220,50 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isFormValid) {
         const formData = new FormData(ticketForm);
         const ticketData = Object.fromEntries(formData.entries());
-        const newTicket = {
-          id: `#T${Date.now().toString().slice(-6)}`,
-          fullName: ticketData.full_name,
-          subject: ticketData.subject,
-          dateCreated: new Date().toISOString(),
-          status: "Open",
-          email: ticketData.email,
-          phone: ticketData.phone,
-          description: ticketData.description,
-          contact_method: ticketData.contact_method,
-          attachment:
-            ticketData.attachment instanceof File
-              ? ticketData.attachment.name
-              : "",
+        const attachmentFile = ticketData.attachment;
+
+        const saveTicket = (attachmentData) => {
+          const selectedSubjectText =
+            subjectSelect.options[subjectSelect.selectedIndex].text;
+          const newTicket = {
+            id: `#T${Date.now().toString().slice(-6)}`,
+            fullName: ticketData.full_name,
+            subject: selectedSubjectText,
+            dateCreated: new Date().toISOString(),
+            status: "Open",
+            email: ticketData.email,
+            phone: ticketData.phone,
+            description: ticketData.description,
+            contact_method: ticketData.contact_method,
+            attachment: attachmentData,
+          };
+
+          const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+          tickets.push(newTicket);
+          localStorage.setItem("tickets", JSON.stringify(tickets));
+
+          alert(
+            "Ticket submitted successfully! You can view it in the 'My Tickets' section."
+          );
+          ticketForm.reset();
+          if (fileNameDisplay) {
+            fileNameDisplay.innerText = "No file chosen";
+          }
         };
 
-        const tickets = JSON.parse(sessionStorage.getItem("tickets")) || [];
-        tickets.push(newTicket);
-        sessionStorage.setItem("tickets", JSON.stringify(tickets));
-
-        alert(
-          "Ticket submitted successfully! You can view it in the 'My Tickets' section."
-        );
-        ticketForm.reset();
-        if (fileNameDisplay) {
-          fileNameDisplay.innerText = "No file chosen";
+        if (attachmentFile && attachmentFile.size > 0) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const attachmentData = {
+              name: attachmentFile.name,
+              type: attachmentFile.type,
+              content: event.target.result,
+            };
+            saveTicket(attachmentData);
+          };
+          reader.readAsDataURL(attachmentFile);
+        } else {
+          saveTicket(null);
         }
       } else {
         alert("Please correct the errors in the form before submitting.");
@@ -259,8 +277,43 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const refreshButton = document.querySelector(".refresh-button");
+
+    if (refreshButton) {
+      refreshButton.addEventListener("click", () => {
+        const icon = refreshButton.querySelector(".fa-sync-alt");
+        if (icon) {
+          icon.classList.add("fa-spin");
+        }
+        setTimeout(() => {
+          renderTickets();
+          if (icon) {
+            icon.classList.remove("fa-spin");
+          }
+        }, 300);
+      });
+    }
+
+    const modal = document.getElementById("ticket-modal");
+    const modalBody = document.getElementById("modal-body");
+    const modalClose = document.querySelector(".modal-close");
+
+    const openModal = () => modal.classList.add("active");
+    const closeModal = () => modal.classList.remove("active");
+
+    if (modalClose) {
+      modalClose.addEventListener("click", closeModal);
+    }
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+    }
+
     const renderTickets = () => {
-      const tickets = JSON.parse(sessionStorage.getItem("tickets")) || [];
+      const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
       ticketTableBody.innerHTML = "";
 
       if (tickets.length === 0) {
@@ -283,8 +336,8 @@ document.addEventListener("DOMContentLoaded", () => {
             : ticket.description;
 
         const row = `
-          <tr>
-            <td data-label="Ticket ID">${ticket.id}</td>
+          <tr data-id="${ticket.id}">
+            <td data-label="Ticket ID" >${ticket.id}</td>
             <td data-label="Raised By">
               <div class="td-main-content">${ticket.fullName}</div>
               <div class="td-sub-content">${ticket.email}</div>
@@ -296,20 +349,18 @@ document.addEventListener("DOMContentLoaded", () => {
             <td data-label="Date Created">${formattedDate}</td>
             <td data-label="Actions">
               <div class="action-icons">
-                <button class="action-icon" title="More Info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM288 224C288 206.3 302.3 192 320 192C337.7 192 352 206.3 352 224C352 241.7 337.7 256 320 256C302.3 256 288 241.7 288 224zM280 288L328 288C341.3 288 352 298.7 352 312L352 400L360 400C373.3 400 384 410.7 384 424C384 437.3 373.3 448 360 448L280 448C266.7 448 256 437.3 256 424C256 410.7 266.7 400 280 400L304 400L304 336L280 336C266.7 336 256 325.3 256 312C256 298.7 266.7 288 280 288z"/></svg></button>
-                <button class="action-icon" title="Download Attachment" ${
+                <button class="action-icon more-info-button" title="More Info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM288 224C288 206.3 302.3 192 320 192C337.7 192 352 206.3 352 224C352 241.7 337.7 256 320 256C302.3 256 288 241.7 288 224zM280 288L328 288C341.3 288 352 298.7 352 312L352 400L360 400C373.3 400 384 410.7 384 424C384 437.3 373.3 448 360 448L280 448C266.7 448 256 437.3 256 424C256 410.7 266.7 400 280 400L304 400L304 336L280 336C266.7 336 256 325.3 256 312C256 298.7 266.7 288 280 288z"/></svg></button>
+                <button class="action-icon download-button" title="Download Attachment" ${
                   !ticket.attachment ? "disabled" : ""
                 }><i class="fas fa-download"></i></button>
-                <button class="action-icon" title="Call User"><i class="fas fa-phone ${
+                <button class="action-icon call-button" title="Call User"><i class="fas fa-phone ${
                   ticket.contact_method === "phone" ? "active" : "inactive"
                 }"></i></button>
-                <button class="action-icon" title="Email User"><i class="fas fa-envelope ${
+                <button class="action-icon email-button" title="Email User"><i class="fas fa-envelope ${
                   ticket.contact_method === "email" ? "active" : "inactive"
                 }"></i></button>
-                <button class="action-icon" title="Edit Ticket"><i class="fas fa-pen-nib"></i></button>
-                <button class="action-icon delete-button" title="Delete Ticket" data-id="${
-                  ticket.id
-                }"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"/></svg></button>
+                <button class="action-icon edit-button" title="Edit Ticket"><i class="fas fa-pen-nib"></i></button>
+                <button class="action-icon delete-button" title="Delete Ticket"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"/></svg></button>
               </div>
             </td>
           </tr>`;
@@ -317,20 +368,124 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
+    const getTicketById = (id) => {
+      const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+      return tickets.find((ticket) => ticket.id === id);
+    };
+
     ticketTableBody.addEventListener("click", (e) => {
-      const deleteButton = e.target.closest(".delete-button");
-      if (deleteButton) {
-        const ticketId = deleteButton.dataset.id;
+      const targetButton = e.target.closest(".action-icon");
+      if (!targetButton) return;
+
+      const ticketId = e.target.closest("tr").dataset.id;
+      const ticket = getTicketById(ticketId);
+      if (!ticket) return;
+
+      if (targetButton.classList.contains("delete-button")) {
         if (
           confirm(
             `Are you sure you want to delete ticket ${ticketId}? This action cannot be undone.`
           )
         ) {
-          let tickets = JSON.parse(sessionStorage.getItem("tickets")) || [];
+          let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
           tickets = tickets.filter((ticket) => ticket.id !== ticketId);
-          sessionStorage.setItem("tickets", JSON.stringify(tickets));
+          localStorage.setItem("tickets", JSON.stringify(tickets));
           renderTickets();
         }
+      } else if (targetButton.classList.contains("more-info-button")) {
+        modalBody.innerHTML = `
+            <h3>Ticket Details: ${ticket.id}</h3>
+            <div class="detail-grid">
+                <strong>Full Name:</strong> <span>${ticket.fullName}</span>
+                <strong>Email:</strong> <span>${ticket.email}</span>
+                <strong>Phone:</strong> <span>${ticket.phone}</span>
+                <strong>Subject:</strong> <span>${ticket.subject}</span>
+                <strong>Description:</strong> <span>${ticket.description}</span>
+                <strong>Contact Method:</strong> <span>${
+                  ticket.contact_method
+                }</span>
+                <strong>Attachment:</strong> <span>${
+                  ticket.attachment ? ticket.attachment.name : "None"
+                }</span>
+                <strong>Date Created:</strong> <span>${new Date(
+                  ticket.dateCreated
+                ).toLocaleString()}</span>
+            </div>
+        `;
+        openModal();
+      } else if (targetButton.classList.contains("download-button")) {
+        if (ticket.attachment && ticket.attachment.content) {
+          const link = document.createElement("a");
+          link.href = ticket.attachment.content;
+          link.download = ticket.attachment.name;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      } else if (targetButton.classList.contains("call-button")) {
+        if (ticket.phone) {
+          window.location.href = `tel:${ticket.phone}`;
+        } else {
+          alert("No phone number available for this ticket.");
+        }
+      } else if (targetButton.classList.contains("email-button")) {
+        if (ticket.email) {
+          const subject = encodeURIComponent(
+            `Re: Ticket ${ticket.id} - ${ticket.subject}`
+          );
+          window.location.href = `mailto:${ticket.email}?subject=${subject}`;
+        } else {
+          alert("No email address available for this ticket.");
+        }
+      } else if (targetButton.classList.contains("edit-button")) {
+        modalBody.innerHTML = `
+            <h3>Edit Ticket: ${ticket.id}</h3>
+            <form class="modal-edit-form" id="edit-ticket-form">
+                <div class="form-group">
+                    <label for="edit-full-name">Full Name</label>
+                    <input type="text" id="edit-full-name" value="${ticket.fullName}" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-subject">Subject</label>
+                    <input type="text" id="edit-subject" value="${ticket.subject}" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-description">Description</label>
+                    <textarea id="edit-description" rows="4" required>${ticket.description}</textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-button" id="cancel-edit">Cancel</button>
+                    <button type="submit" class="primary-button">Save Changes</button>
+                </div>
+            </form>
+        `;
+        openModal();
+
+        document
+          .getElementById("cancel-edit")
+          .addEventListener("click", closeModal);
+
+        document
+          .getElementById("edit-ticket-form")
+          .addEventListener("submit", (event) => {
+            event.preventDefault();
+            let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+            const ticketIndex = tickets.findIndex((t) => t.id === ticket.id);
+
+            if (ticketIndex > -1) {
+              tickets[ticketIndex].fullName =
+                document.getElementById("edit-full-name").value;
+              tickets[ticketIndex].subject =
+                document.getElementById("edit-subject").value;
+              tickets[ticketIndex].description =
+                document.getElementById("edit-description").value;
+
+              localStorage.setItem("tickets", JSON.stringify(tickets));
+              alert("Ticket updated successfully!");
+              closeModal();
+              renderTickets();
+            }
+          });
       }
     });
 
