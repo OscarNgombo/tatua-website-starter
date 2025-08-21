@@ -218,18 +218,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ].every(Boolean);
 
       if (isFormValid) {
-        // 1. Collect form data into an object
         const formData = new FormData(ticketForm);
         const ticketData = Object.fromEntries(formData.entries());
-
-        // 2. Create a new ticket object with a unique ID and creation date
         const newTicket = {
           id: `#T${Date.now().toString().slice(-6)}`,
           fullName: ticketData.full_name,
           subject: ticketData.subject,
-          dateCreated: new Date().toISOString(), // Store full date and time
-          status: "Open", // Default status
-          // Store other details for potential future use (e.g., view details page)
+          dateCreated: new Date().toISOString(),
+          status: "Open",
           email: ticketData.email,
           phone: ticketData.phone,
           description: ticketData.description,
@@ -240,10 +236,10 @@ document.addEventListener("DOMContentLoaded", () => {
               : "",
         };
 
-        // 3. Retrieve existing tickets, add the new one, and save back to localStorage
-        const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+        // 3. Retrieve existing tickets, add the new one, and save back to sessionStorage
+        const tickets = JSON.parse(sessionStorage.getItem("tickets")) || [];
         tickets.push(newTicket);
-        localStorage.setItem("tickets", JSON.stringify(tickets));
+        sessionStorage.setItem("tickets", JSON.stringify(tickets));
 
         alert(
           "Ticket submitted successfully! You can view it in the 'My Tickets' section."
@@ -265,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const renderTickets = () => {
-      const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+      const tickets = JSON.parse(sessionStorage.getItem("tickets")) || [];
       ticketTableBody.innerHTML = "";
 
       if (tickets.length === 0) {
@@ -325,15 +321,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ticketTableBody.addEventListener("click", (e) => {
       const deleteButton = e.target.closest(".delete-button");
       if (deleteButton) {
-        const ticketId = deleteBtn.dataset.id;
+        const ticketId = deleteButton.dataset.id;
         if (
           confirm(
             `Are you sure you want to delete ticket ${ticketId}? This action cannot be undone.`
           )
         ) {
-          let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+          let tickets = JSON.parse(sessionStorage.getItem("tickets")) || [];
           tickets = tickets.filter((ticket) => ticket.id !== ticketId);
-          localStorage.setItem("tickets", JSON.stringify(tickets));
+          sessionStorage.setItem("tickets", JSON.stringify(tickets));
           renderTickets();
         }
       }
