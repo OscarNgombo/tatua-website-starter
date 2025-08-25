@@ -8,7 +8,6 @@
       name="description"
       content="View and manage your support tickets with Tatua Solutions."
     />
-    <link rel="stylesheet" href="../../styles/styles.css" />
     <link rel="stylesheet" href="../../styles/ticketing.css" />
     <link
       rel="stylesheet"
@@ -18,42 +17,64 @@
   </head>
   <body class="ticketing-page">
     <header class="site-header">
-      <div class="main-header-content">
-        <div class="nav-custom">
-          <a href="../../index.html" class="nav-logo">
-            <img
-              src="../../assets/images/tatua-logo.png"
-              alt="Tatua Solutions Logo"
-            />
-          </a>
-          <ul>
-            <li><a href="raise_ticket.html">Raise Ticket</a></li>
-            <li><a href="tickets.html" class="active">Tickets List</a></li>
-          </ul>
-        </div>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-        <label for="nav-toggle" class="nav-toggle-label">
-          <span></span>
-          <span></span>
-          <span></span>
-        </label>
-        <nav class="main-nav">
-          <ul>
-            <li id="logout-nav-item" style="display: list-item">
-              <a href="#" id="logout-link"></a>
-            </li>
-          </ul>
-        </nav>
+      <div class="logo-container">
+        <a href="../../index.html" class="nav-logo"></a><span>Tatua</span>
       </div>
+      <a href="raise_ticket.html">Raise Ticket</a>
+      <a href="tickets.html" class="active">Tickets List</a>
     </header>
 
     <main class="ticket-main">
       <div class="ticket-section">
         <div class="ticket-header">
           <h2></h2>
-          <button class="refresh-button">
-            <i class="fas fa-sync-alt"></i> Refresh
-          </button>
+          <div class="header-actions">
+            <button class="sort-button">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 21L14 17H17V7H14L18 3L22 7H19V17H22M2 19V17H12V19M2 13V11H9V13M2 7V5H6V7H2Z"
+                  fill="#5856D6"
+                />
+              </svg>
+              <span>Sort</span>
+            </button>
+            <button class="filter-button">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.61743 13.0542H18.6174V11.0542H6.61743M3.61743 6.0542V8.0542H21.6174V6.0542M10.6174 18.0542H14.6174V16.0542H10.6174V18.0542Z"
+                  fill="#5856D6"
+                />
+              </svg>
+              <span>Filter</span>
+            </button>
+            <button class="refresh-button">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.6666 5.33335L9.99996 8.00002H12C12 9.06089 11.5785 10.0783 10.8284 10.8284C10.0782 11.5786 9.06083 12 7.99996 12C7.33329 12 6.68663 11.8334 6.13329 11.5334L5.15996 12.5067C5.97996 13.0267 6.95329 13.3334 7.99996 13.3334C9.41445 13.3334 10.771 12.7715 11.7712 11.7713C12.7714 10.7711 13.3333 9.41451 13.3333 8.00002H15.3333M3.99996 8.00002C3.99996 6.93915 4.42139 5.92174 5.17153 5.17159C5.92168 4.42145 6.93909 4.00002 7.99996 4.00002C8.66663 4.00002 9.31329 4.16669 9.86663 4.46669L10.84 3.49335C10.02 2.97335 9.04663 2.66669 7.99996 2.66669C6.58547 2.66669 5.22892 3.22859 4.22872 4.22878C3.22853 5.22898 2.66663 6.58553 2.66663 8.00002H0.666626L3.33329 10.6667L5.99996 8.00002"
+                  fill="#5856D6"
+                />
+              </svg>
+              <span>Refresh</span>
+            </button>
+          </div>
         </div>
         <div class="table-container">
           <table>
@@ -81,6 +102,153 @@
       </div>
     </div>
 
+    <div id="filter-modal" class="modal-overlay">
+      <div class="filter-modal-content">
+        <div class="filter-modal-header">
+          <div class="filter-modal-title">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 13H18V11H6M3 6V8H21V6M10 18H14V16H10V18Z"
+                fill="#DB8A74"
+              />
+            </svg>
+            <span>Filter Table</span>
+          </div>
+          <button class="filter-modal-close" title="Close">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.0001 16.6667C6.32508 16.6667 3.33341 13.675 3.33341 10C3.33341 6.32502 6.32508 3.33335 10.0001 3.33335C13.6751 3.33335 16.6667 6.32502 16.6667 10C16.6667 13.675 13.6751 16.6667 10.0001 16.6667ZM10.0001 1.66669C5.39175 1.66669 1.66675 5.39169 1.66675 10C1.66675 14.6084 5.39175 18.3334 10.0001 18.3334C14.6084 18.3334 18.3334 14.6084 18.3334 10C18.3334 5.39169 14.6084 1.66669 10.0001 1.66669ZM12.1584 6.66669L10.0001 8.82502L7.84175 6.66669L6.66675 7.84169L8.82508 10L6.66675 12.1584L7.84175 13.3334L10.0001 11.175L12.1584 13.3334L13.3334 12.1584L11.1751 10L13.3334 7.84169L12.1584 6.66669Z"
+                fill="#FF3B30"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="filter-modal-body">
+          <div id="filter-rows-container">
+            <div class="filter-row-header">
+              <label>Column</label>
+              <label>Relation</label>
+              <label>Filter Value</label>
+              <!-- Placeholder for alignment with delete button -->
+              <span class="action-header-placeholder"></span>
+            </div>
+          </div>
+          <button class="add-filter-button">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14 5.33333H2V4H14V5.33333ZM9.20667 10.6667H6.66667V12H8.72667C8.80667 11.52 8.97333 11.0733 9.20667 10.6667ZM12 7.33333H4V8.66667H12V7.33333ZM12 10V12H10V13.3333H12V15.3333H13.3333V13.3333H15.3333V12H13.3333V10H12Z"
+                fill="#5856D6"
+              />
+            </svg>
+            <span>Add Filter</span>
+          </button>
+        </div>
+        <div class="filter-modal-footer">
+          <button type="button" class="filter-clear-button">
+            <span>Clear</span>
+          </button>
+          <button type="button" class="filter-apply-button">
+            <span>Apply Filters</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="sort-modal" class="modal-overlay">
+      <div class="sort-modal-content">
+        <div class="sort-modal-header">
+          <div class="sort-modal-title">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 21L14 17H17V7H14L18 3L22 7H19V17H22M2 19V17H12V19M2 13V11H9V13M2 7V5H6V7H2Z"
+                fill="#DB8A74"
+              />
+            </svg>
+            <span>Sort Table</span>
+          </div>
+          <button class="sort-modal-close" title="Close">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.0001 16.6667C6.32508 16.6667 3.33341 13.675 3.33341 10C3.33341 6.32502 6.32508 3.33335 10.0001 3.33335C13.6751 3.33335 16.6667 6.32502 16.6667 10C16.6667 13.675 13.6751 16.6667 10.0001 16.6667ZM10.0001 1.66669C5.39175 1.66669 1.66675 5.39169 1.66675 10C1.66675 14.6084 5.39175 18.3334 10.0001 18.3334C14.6084 18.3334 18.3334 14.6084 18.3334 10C18.3334 5.39169 14.6084 1.66669 10.0001 1.66669ZM12.1584 6.66669L10.0001 8.82502L7.84175 6.66669L6.66675 7.84169L8.82508 10L6.66675 12.1584L7.84175 13.3334L10.0001 11.175L12.1584 13.3334L13.3334 12.1584L11.1751 10L13.3334 7.84169L12.1584 6.66669Z"
+                fill="#FF3B30"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="sort-modal-body">
+          <div id="sort-rows-container">
+            <div class="sort-row-header">
+              <label>Column</label>
+              <label>Order</label>
+              <span class="action-header-placeholder"></span>
+            </div>
+          </div>
+          <button class="add-sort-button">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.6667 8.66671H8.66671V12.6667H7.33337V8.66671H3.33337V7.33337H7.33337V3.33337H8.66671V7.33337H12.6667V8.66671Z"
+                fill="#5856D6"
+              />
+            </svg>
+            <span>Add Sort</span>
+          </button>
+        </div>
+        <div class="sort-modal-footer">
+          <button type="button" class="sort-clear-button">
+            <span>Clear</span>
+          </button>
+          <button type="button" class="sort-apply-button">
+            <span>Apply Sorts</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="../../js/script.js"></script>
+    <div id="custom-alert-modal" class="modal-overlay">
+      <div class="modal-content custom-alert-content">
+        <button class="modal-close" title="Close">&times;</button>
+        <div class="alert-message-body"></div>
+        <div class="alert-actions">
+          <button class="primary-button alert-ok-button">OK</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

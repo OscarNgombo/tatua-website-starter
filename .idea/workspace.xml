@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37113975-30c2-4a6e-9cd9-0b791a506105" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pages/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/ticketing_system/raise_ticket.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/ticketing_system/tickets.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/case_studies.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/case_studies.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/email_templates/product-update-newsletter.html" beforeDir="false" afterPath="$PROJECT_DIR$/email_templates/product-update-newsletter.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/email_templates/trial_expiration.html" beforeDir="false" afterPath="$PROJECT_DIR$/email_templates/trial_expiration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/email_templates/welcome_email_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/email_templates/welcome_email_template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/ticketing_system/raise_ticket.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/ticketing_system/raise_ticket.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/ticketing_system/tickets.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/ticketing_system/tickets.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/ticketing.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/ticketing.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,22 +37,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/tracso/work/Sky_World/frontend/CSS-HTML/tatua-website-starter&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "routes-feature",
+    "last_opened_file_path": "/home/tracso/work/Sky_World/frontend/CSS-HTML/tatua-website-starter",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -88,6 +79,7 @@
       <workItem from="1755684638892" duration="3622000" />
       <workItem from="1755709238960" duration="481000" />
       <workItem from="1755714195814" duration="33000" />
+      <workItem from="1756115269550" duration="1421000" />
     </task>
     <servers />
   </component>
