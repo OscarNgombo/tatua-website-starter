@@ -203,7 +203,7 @@ select {
   text-align: left;
   flex-basis: 100%;
   box-sizing: border-box;
-  padding-left: 186px; /* 170px label width + 16px gap */
+  padding-left: 186px;
 }
 
 .invalid .error-message {
@@ -425,7 +425,6 @@ select {
 }
 
 .form-group-checkbox .error-message {
-  /* Override default padding to align with checkbox text */
   padding-left: 28px;
 }
 
@@ -518,24 +517,6 @@ select {
   background-color: #553c9a;
 }
 
-@media (max-width: 768px) {
-  .ticket-form .form-group {
-    grid-template-columns: 1fr;
-  }
-
-  .ticket-form .form-group-checkbox {
-    padding-left: 0;
-  }
-
-  .ticket-form .form-actions {
-    padding-left: 0;
-  }
-
-  .ticket-form .primary-button {
-    width: 100%;
-  }
-}
-
 .ticket-section {
   width: 100%;
   max-width: 100vw;
@@ -579,7 +560,8 @@ select {
   gap: 4px;
   padding: 0;
   color: #5856d6;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+  overflow: hidden;
 }
 
 .sort-button > span,
@@ -590,6 +572,62 @@ select {
 .sort-button:hover,
 .filter-button:hover {
   opacity: 0.8;
+}
+
+.sort-button.active,
+.filter-button.active {
+  gap: 0;
+  padding: 0;
+  color: white;
+  background: #7e1913;
+}
+
+.sort-button.active:hover,
+.filter-button.active:hover {
+  opacity: 1;
+}
+.header-actions > .active {
+  width: fit-content;
+  height: 23px;
+}
+
+.active-label {
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background-color: #7e1913;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inter";
+  font-style: normal;
+  line-height: 15px;
+  padding-left: 0.35rem;
+}
+.sort-button.active > span,
+.filter-button.active > span {
+  color: #ffffff;
+}
+.active-name {
+  font-family: "Inter";
+  font-style: normal;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background-color: #7e1913;
+  justify-content: center;
+  align-items: center;
+  padding-inline: 0.35rem;
+  text-decoration-line: underline;
+}
+
+.active-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #420d0a;
+  padding: 4px;
 }
 
 .refresh-button {
@@ -782,11 +820,11 @@ tbody tr:hover {
 }
 
 .custom-alert-content.success {
-  border: 2px solid #65558f; 
+  border: 2px solid #65558f;
 }
 
 .custom-alert-content.error {
-  border: 2px solid #dc3545; 
+  border: 2px solid #dc3545;
 }
 
 .modal-overlay.active .modal-content {
@@ -860,7 +898,13 @@ tbody tr:hover {
   align-items: center;
   gap: 8px;
 }
-
+.modal-edit-form input,
+.modal-edit-form select,
+.modal-edit-form textarea {
+  background-color: #ffffff;
+  border: 1px solid #cac9c9;
+  border-radius: 2px;
+}
 .modal-edit-form .form-group {
   display: flex;
   flex-direction: column;
@@ -932,46 +976,6 @@ tbody tr:hover {
   font-size: 11px;
   color: #6c6a6a;
   margin-top: 4px;
-}
-
-@media (max-width: 768px) {
-  thead {
-    display: none;
-  }
-
-  tr {
-    display: block;
-    margin-bottom: 1rem;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-  }
-
-  td {
-    display: block;
-    text-align: right;
-    border-bottom: 1px solid #f0f0f0;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 1rem;
-    font-weight: bold;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  td:last-child {
-    border-bottom: none;
-  }
-
-  .ticket-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
 }
 
 /* Filter Modal */
@@ -1061,7 +1065,6 @@ tbody tr:hover {
 .filter-clear-button {
   width: 111px;
   background-color: #fff;
-  border: 1px solid #cac9c9;
 }
 
 .filter-clear-button > span {
@@ -1177,7 +1180,6 @@ tbody tr:hover {
 .sort-clear-button {
   width: 111px;
   background-color: #fff;
-  border: 1px solid #cac9c9;
 }
 
 .sort-clear-button > span {
@@ -1277,6 +1279,7 @@ tbody tr:hover {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  border-radius: 2px;
 }
 
 .filter-control {
@@ -1290,7 +1293,7 @@ tbody tr:hover {
 }
 
 .sort-control:nth-of-type(1) {
-  flex: 3;
+  flex: 2;
 }
 
 .filter-control:nth-of-type(2) {
@@ -1326,8 +1329,8 @@ tbody tr:hover {
   width: 100%;
 }
 
-.sort-row select,
-.filter-row select {
+.sort-row > select,
+.filter-row > select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1336,7 +1339,11 @@ tbody tr:hover {
   background-position: right 10px center;
   padding-right: 30px;
 }
-
+.input-container > select {
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='%23A7A0A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
 .sort-row select:invalid,
 .filter-row select:invalid {
   color: #bdbac1;
@@ -1362,4 +1369,114 @@ tbody tr:hover {
   font-size: 1.5rem;
   padding: 0;
   line-height: 1;
+}
+
+/* Custom Confirm Modal Styles */
+.custom-confirm-content {
+  max-width: 450px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.custom-confirm-content .modal-close {
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.confirm-message-body {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #000000;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.confirm-cancel-button,
+.confirm-ok-button {
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  color: white;
+}
+
+.confirm-cancel-button {
+  background-color: #6c757d;
+}
+
+.confirm-cancel-button:hover {
+  background-color: #5a6268;
+}
+
+.confirm-ok-button {
+  background-color: #ff3b30;
+}
+
+.confirm-ok-button:hover {
+  background-color: #d93025;
+}
+@media (max-width: 768px) {
+  thead {
+    display: none;
+  }
+
+  tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    width: calc(100vw * 0.9);
+  }
+
+  td {
+    display: block;
+    text-align: right;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  td:last-child {
+    border-bottom: none;
+  }
+
+  .ticket-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .ticket-form .form-group {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-form .form-group-checkbox {
+    padding-left: 0;
+  }
+
+  .ticket-form .form-actions {
+    padding-left: 0;
+  }
+
+  .ticket-form .primary-button {
+    width: 100%;
+  }
 }

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const secretKey = "T@tuaS0lut1onsK3y"; // A simple key for obfuscation
+  const secretKey = "T@tuaS0lut1onsK3y"; 
 
   // Determine which storage to use based on URL query parameter
   const urlParams = new URLSearchParams(window.location.search);
@@ -8,45 +8,88 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (storageType === "session") {
     currentTicketStorage = sessionStorage;
-    console.log("Ticket data will be stored in sessionStorage.");
+    console.log(
+      "Ticket data will be stored in sessionStorage. Updating nav links."
+    );
+    const headerLinks = document.querySelectorAll(".site-header a");
+    headerLinks.forEach((link) => {
+      if (
+        link.href.includes("raise_ticket.html") ||
+        link.href.includes("tickets.html")
+      ) {
+        const url = new URL(link.href);
+        url.searchParams.set("storage", "session");
+        link.href = url.toString();
+      }
+    });
   } else {
     console.log("Ticket data will be stored in localStorage (default).");
   }
+
   const encryptData = (data) => {
     const jsonString = JSON.stringify(data);
-    let encrypted = "";
-    for (let i = 0; i < jsonString.length; i++) {
-      encrypted += String.fromCharCode(
-        jsonString.charCodeAt(i) ^ secretKey.charCodeAt(i % secretKey.length)
-      );
-    }
-    return btoa(encrypted); // Base64 encode to handle special characters
+    // Encrypt with AES-256 and return the Base64 representation
+    return CryptoJS.AES.encrypt(jsonString, secretKey).toString();
   };
 
   const decryptData = (encryptedData) => {
     if (!encryptedData) return null;
+
+    // AES decryption (the new standard)
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+      const decryptedJson = bytes.toString(CryptoJS.enc.Utf8);
+      if (!decryptedJson) {
+        throw new Error("AES decryption resulted in an empty string.");
+      }
+      return JSON.parse(decryptedJson);
+    } catch (aesError) {
+      console.warn(
+        "AES decryption failed. Attempting fallback for older data formats.",
+        aesError.message
+      );
+    }
+
+    // Try old XOR decryption (the previous format)
+    let jsonData;
     try {
       const fromBase64 = atob(encryptedData);
-      let decrypted = "";
+      let decryptedXor = "";
       for (let i = 0; i < fromBase64.length; i++) {
-        decrypted += String.fromCharCode(
+        decryptedXor += String.fromCharCode(
           fromBase64.charCodeAt(i) ^ secretKey.charCodeAt(i % secretKey.length)
         );
       }
-      return JSON.parse(decrypted);
-    } catch (e) {
-      console.warn("Decryption failed, assuming plain JSON.", e);
+      jsonData = JSON.parse(decryptedXor);
+      console.log("Successfully decrypted old XOR data. Migrating to AES-256.");
+    } catch (xorError) {
+      console.error(
+        "All decryption and parsing attempts failed. Data is likely corrupt.",
+        xorError.message
+      );
+      if (currentTicketStorage.getItem("tickets") === encryptedData) {
+        currentTicketStorage.removeItem("tickets");
+      }
+      return null;
+    }
+
+    // If we successfully decrypted with an old method, re-encrypt with AES and save.
+    if (jsonData) {
       try {
-        return JSON.parse(encryptedData);
-      } catch (jsonError) {
+        const newEncryptedData = encryptData(jsonData);
+        if (currentTicketStorage.getItem("tickets") === encryptedData) {
+          currentTicketStorage.setItem("tickets", newEncryptedData);
+          console.log("Data migration to AES-256 complete.");
+        }
+      } catch (migrationError) {
         console.error(
-          "Could not parse data as JSON. Data is corrupt.",
-          jsonError
+          "Failed to migrate data to new encryption format.",
+          migrationError
         );
-        localStorage.removeItem("tickets");
-        return null;
       }
     }
+
+    return jsonData;
   };
 
   // --- Customized Alert Function ---
@@ -85,6 +128,43 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   };
 
+  // --- Customized Confirm Dialog ---
+  const showConfirm = (message) => {
+    return new Promise((resolve) => {
+      const confirmModal = document.getElementById("custom-confirm-modal");
+      if (!confirmModal) {
+        console.error(
+          "Custom confirm modal not found. Falling back to native confirm."
+        );
+        resolve(confirm(message));
+        return;
+      }
+
+      const messageBody = confirmModal.querySelector(".confirm-message-body");
+      const okButton = confirmModal.querySelector(".confirm-ok-button");
+      const cancelButton = confirmModal.querySelector(".confirm-cancel-button");
+      const closeButton = confirmModal.querySelector(".modal-close");
+
+      messageBody.textContent = message;
+
+      const closeConfirm = (value) => {
+        confirmModal.classList.remove("active");
+        okButton.onclick = null;
+        cancelButton.onclick = null;
+        closeButton.onclick = null;
+        confirmModal.onclick = null;
+        resolve(value);
+      };
+
+      okButton.onclick = () => closeConfirm(true);
+      cancelButton.onclick = () => closeConfirm(false);
+      closeButton.onclick = () => closeConfirm(false);
+      confirmModal.onclick = (e) =>
+        e.target === confirmModal && closeConfirm(false);
+
+      confirmModal.classList.add("active");
+    });
+  };
   // --- Validation Helpers ---
   const showError = (fieldContainer, message) => {
     if (!fieldContainer) return;
@@ -132,9 +212,61 @@ document.addEventListener("DOMContentLoaded", () => {
     fieldContainer,
     isRequired,
     MAX_SIZE = 1 * 1024 * 1024,
-    ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png"]
+    ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/jpg"]
   ) => {
-    // This function is now globally available and used by both create and edit forms.
+    if (isRequired && (!files || files.length === 0)) {
+      return validateField(
+        fieldContainer,
+        () => false,
+        "Please select at least one file."
+      );
+    }
+
+    if (!files || files.length === 0) {
+      clearError(fieldContainer);
+      return true;
+    }
+
+    const ALLOWED_EXTENSIONS = [".pdf", ".jpg", ".jpeg", ".png"];
+    let totalSize = 0;
+    for (const file of files) {
+      const fileExtension = `.${file.name.split(".").pop().toLowerCase()}`;
+      const isMimeTypeAllowed = ALLOWED_TYPES.includes(file.type);
+      const isExtensionAllowed = ALLOWED_EXTENSIONS.includes(fileExtension);
+
+      if (!isMimeTypeAllowed && !isExtensionAllowed) {
+        console.error("File validation failed for:", {
+          fileName: file.name,
+          mimeType: file.type,
+          fileExtension: fileExtension,
+          isMimeTypeAllowed: isMimeTypeAllowed,
+          isExtensionAllowed: isExtensionAllowed,
+        });
+        return validateField(
+          fieldContainer,
+          () => false,
+          `Invalid file type: ${file.name}. Allowed: PDF, JPG, PNG, JPEG.`
+        );
+      }
+      totalSize += file.size;
+    }
+
+    if (totalSize > MAX_SIZE) {
+      const sizeInMB = (totalSize / (1024 * 1024)).toFixed(2);
+      console.error("File size validation failed:", {
+        totalSize: totalSize,
+        maxSize: MAX_SIZE,
+        totalSizeMB: sizeInMB,
+      });
+      return validateField(
+        fieldContainer,
+        () => false,
+        `Total file size exceeds 1MB. Current: ${sizeInMB}MB.`
+      );
+    }
+
+    clearError(fieldContainer);
+    return true;
   };
 
   // --- Theme Switcher ---
@@ -306,53 +438,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "Message cannot be empty."
       );
 
-    // Reusable file validation function (defined globally now)
-    const validateFiles = (
-      files,
-      fieldContainer,
-      isRequired,
-      MAX_SIZE = 1 * 1024 * 1024,
-      ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png"]
-    ) => {
-      if (isRequired && (!files || files.length === 0)) {
-        return validateField(
-          fieldContainer,
-          () => false,
-          "Please select at least one file."
-        );
-      }
-
-      if (!files || files.length === 0) {
-        // If not required and no files, it's valid
-        clearError(fieldContainer);
-        return true;
-      }
-
-      let totalSize = 0;
-      for (const file of files) {
-        if (!ALLOWED_TYPES.includes(file.type)) {
-          return validateField(
-            fieldContainer,
-            () => false,
-            `Invalid file type: ${file.name}. Allowed: PDF, JPG, PNG, JPEG.`
-          );
-        }
-        totalSize += file.size;
-      }
-
-      if (totalSize > MAX_SIZE) {
-        const sizeInMB = (totalSize / (1024 * 1024)).toFixed(2);
-        return validateField(
-          fieldContainer,
-          () => false,
-          `Total file size exceeds 1MB. Current: ${sizeInMB}MB.`
-        );
-      }
-
-      clearError(fieldContainer);
-      return true;
-    };
-
     const validateAttachment = () =>
       validateFiles(
         attachmentInput.files,
@@ -459,7 +544,6 @@ document.addEventListener("DOMContentLoaded", () => {
             fullName: ticketPayload.full_name,
             subject: selectedSubjectText,
             dateCreated: new Date().toISOString(),
-            status: "Open",
             email: ticketPayload.email,
             phone: ticketPayload.phone,
             description: ticketPayload.description,
@@ -527,10 +611,69 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeFilters = [];
     let activeSorts = [];
 
+    const updateUrlWithState = () => {
+      const url = new URL(window.location);
+      const params = new URLSearchParams(url.search);
+
+      if (activeFilters.length > 0) {
+        params.set("filters", btoa(JSON.stringify(activeFilters)));
+      } else {
+        params.delete("filters");
+      }
+
+      if (activeSorts.length > 0) {
+        params.set("sorts", btoa(JSON.stringify(activeSorts)));
+      } else {
+        params.delete("sorts");
+      }
+
+      const newSearch = params.toString();
+      const newUrl = `${window.location.pathname}${
+        newSearch ? `?${newSearch}` : ""
+      }`;
+
+      history.replaceState({}, "", newUrl);
+    };
+
+    const readStateFromUrl = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const encodedFilters = urlParams.get("filters");
+      const encodedSorts = urlParams.get("sorts");
+
+      if (encodedFilters) {
+        try {
+          activeFilters = JSON.parse(atob(encodedFilters));
+        } catch (e) {
+          console.error("Failed to parse filters from URL", e);
+          activeFilters = [];
+        }
+      }
+
+      if (encodedSorts) {
+        try {
+          activeSorts = JSON.parse(atob(encodedSorts));
+        } catch (e) {
+          console.error("Failed to parse sorts from URL", e);
+          activeSorts = [];
+        }
+      }
+    };
+
+    const sortButton = document.querySelector(".sort-button");
+    const filterButton = document.querySelector(".filter-button");
+    const originalSortButtonHTML = sortButton.innerHTML;
+    const originalFilterButtonHTML = filterButton.innerHTML;
+
+    const allColumnOptions = [
+      { value: "id", text: "Ticket ID" },
+      { value: "fullName", text: "Raised By" },
+      { value: "subject", text: "Subject" },
+      { value: "dateCreated", text: "Date Created" },
+    ];
+
     const updateDisplayedTickets = () => {
       let ticketsToDisplay = [...allTickets];
 
-      // Apply filters
       if (activeFilters.length > 0) {
         ticketsToDisplay = ticketsToDisplay.filter((ticket) => {
           return activeFilters.every((filter) => {
@@ -538,7 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let ticketValue;
             if (filter.field === "dateCreated") {
               const date = new Date(ticket.dateCreated);
-              ticketValue = date.toLocaleDateString("en-CA"); // YYYY-MM-DD format
+              ticketValue = date.toLocaleDateString("en-KE");
             } else {
               ticketValue = ticket[filter.field]
                 ? ticket[filter.field].toString().toLowerCase()
@@ -563,7 +706,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Apply sorts
       if (activeSorts.length > 0) {
         ticketsToDisplay.sort((a, b) => {
           for (const sort of activeSorts) {
@@ -596,7 +738,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ticketsToRender.forEach((ticket) => {
         const date = new Date(ticket.dateCreated);
         const formattedDate = `${date.toLocaleDateString(
-          "en-CA"
+          "en-KE"
         )} ${date.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
@@ -671,25 +813,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (refreshButton) {
       refreshButton.addEventListener("click", () => {
-        const icon = refreshButton.querySelector(".fa-sync-alt");
-        if (icon) {
-          icon.classList.add("fa-spin");
-        }
         setTimeout(() => {
           allTickets =
             decryptData(currentTicketStorage.getItem("tickets")) || [];
           activeFilters = [];
           activeSorts = [];
-          document
-            .querySelectorAll("#filter-rows-container .filter-row")
-            .forEach((r) => r.remove());
-          document
-            .querySelectorAll("#sort-rows-container .sort-row")
-            .forEach((r) => r.remove());
+          if (filterModal)
+            filterModal
+              .querySelectorAll(".filter-row")
+              .forEach((r) => r.remove());
+          if (sortModal)
+            sortModal.querySelectorAll(".sort-row").forEach((r) => r.remove());
           updateDisplayedTickets();
-          if (icon) {
-            icon.classList.remove("fa-spin");
-          }
+          updateFilterSortButtonsState();
+          updateUrlWithState();
         }, 300);
       });
     }
@@ -713,7 +850,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Filter Modal
-    const filterButton = document.querySelector(".filter-button");
     const filterModal = document.getElementById("filter-modal");
 
     if (filterModal) {
@@ -745,14 +881,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const applyFiltersButton = filterModal.querySelector(
         ".filter-apply-button"
       );
-
-      const allColumnOptions = [
-        { value: "id", text: "Ticket ID" },
-        { value: "fullName", text: "Raised By" },
-        { value: "subject", text: "Subject" },
-        { value: "status", text: "Status" },
-        { value: "dateCreated", text: "Date Created" },
-      ];
 
       const updateHeaderVisibility = () => {
         const filterRows = filterRowsContainer.querySelectorAll(".filter-row");
@@ -848,6 +976,8 @@ document.addEventListener("DOMContentLoaded", () => {
           updateHeaderVisibility();
           activeFilters = [];
           updateDisplayedTickets();
+          updateFilterSortButtonsState();
+          updateUrlWithState();
         });
       }
       if (applyFiltersButton) {
@@ -867,12 +997,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
           updateDisplayedTickets();
           closeFilterModal();
+          updateFilterSortButtonsState();
+          updateUrlWithState();
         });
+      }
+
+      if (activeFilters.length > 0) {
+        activeFilters.forEach((filter) => {
+          addFilterRow();
+          const newRow = filterRowsContainer.lastElementChild;
+          if (newRow) {
+            newRow.querySelector(".filter-field").value = filter.field;
+            newRow.querySelector(".filter-operator").value = filter.operator;
+            newRow.querySelector(".filter-value").value = filter.value;
+          }
+        });
+        updateAllFilterOptions();
       }
     }
 
     // Sort Modal
-    const sortButton = document.querySelector(".sort-button");
     const sortModal = document.getElementById("sort-modal");
 
     if (sortModal) {
@@ -880,11 +1024,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const openSortModal = () => sortModal.classList.add("active");
       const closeSortModal = () => sortModal.classList.remove("active");
 
-      if (sortButton) sortButton.addEventListener("click", openSortModal);
-      if (sortModalClose)
+      if (sortButton) {
+        sortButton.addEventListener("click", openSortModal);
+      }
+      if (sortModalClose) {
         sortModalClose.addEventListener("click", closeSortModal);
+      }
       sortModal.addEventListener("click", (e) => {
-        if (e.target === sortModal) closeSortModal();
+        if (e.target === sortModal) {
+          closeSortModal();
+        }
       });
 
       const addSortButton = sortModal.querySelector(".add-sort-button");
@@ -976,6 +1125,8 @@ document.addEventListener("DOMContentLoaded", () => {
           updateSortHeaderVisibility();
           activeSorts = [];
           updateDisplayedTickets();
+          updateFilterSortButtonsState();
+          updateUrlWithState();
         });
       }
 
@@ -991,9 +1142,89 @@ document.addEventListener("DOMContentLoaded", () => {
 
           updateDisplayedTickets();
           closeSortModal();
+          updateFilterSortButtonsState();
+          updateUrlWithState();
         });
       }
+
+      if (activeSorts.length > 0) {
+        activeSorts.forEach((sort) => {
+          addSortRow();
+          const newRow = sortRowsContainer.lastElementChild;
+          if (newRow) {
+            newRow.querySelector(".sort-field").value = sort.field;
+            newRow.querySelector(".sort-direction").value = sort.direction;
+          }
+        });
+        updateAllSortOptions();
+      }
     }
+
+    const updateFilterSortButtonsState = () => {
+      const clearFiltersButton = filterModal
+        ? filterModal.querySelector(".filter-clear-button")
+        : null;
+      const clearSortsButton = sortModal
+        ? sortModal.querySelector(".sort-clear-button")
+        : null;
+
+      // This reusable function updates a button's state (active or default)
+      const updateButton = (
+        button,
+        originalHTML,
+        activeItems,
+        name,
+        clearButtonInModal
+      ) => {
+        if (activeItems.length > 0) {
+          button.classList.add("active");
+          button.innerHTML = `
+            <span class="active-label">${activeItems.length}</span>
+            <span class="active-name">${name}</span>
+            <span class="active-clear">
+              <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_433_619)">
+                  <rect width="20" height="20" transform="translate(0 0.5)" fill="#420D0A"/>
+                  <path d="M15.8333 5.84167L14.6583 4.66667L9.99996 9.32501L5.34163 4.66667L4.16663 5.84167L8.82496 10.5L4.16663 15.1583L5.34163 16.3333L9.99996 11.675L14.6583 16.3333L15.8333 15.1583L11.175 10.5L15.8333 5.84167Z" fill="white"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_433_619">
+                    <rect width="20" height="20" fill="white" transform="translate(0 0.5)"/>
+                  </clipPath>
+                </defs>
+              </svg>
+            </span>`;
+
+          const clearElement = button.querySelector(".active-clear");
+          if (clearElement) {
+            clearElement.addEventListener("click", (e) => {
+              e.stopPropagation();
+              if (clearButtonInModal) {
+                clearButtonInModal.click();
+              }
+            });
+          }
+        } else {
+          button.classList.remove("active");
+          button.innerHTML = originalHTML;
+        }
+      };
+
+      updateButton(
+        filterButton,
+        originalFilterButtonHTML,
+        activeFilters,
+        "Filter",
+        clearFiltersButton
+      );
+      updateButton(
+        sortButton,
+        originalSortButtonHTML,
+        activeSorts,
+        "Sort",
+        clearSortsButton
+      );
+    };
 
     const getTicketById = (id) => {
       const tickets =
@@ -1012,18 +1243,27 @@ document.addEventListener("DOMContentLoaded", () => {
         ticket.attachments || (ticket.attachment ? [ticket.attachment] : []);
 
       if (targetButton.classList.contains("delete-button")) {
-        if (
-          confirm(
-            `Are you sure you want to delete ticket ${ticketId}? This action cannot be undone.`
-          )
-        ) {
-          const tickets =
-            decryptData(currentTicketStorage.getItem("tickets")) || [];
-          allTickets = tickets.filter((ticket) => ticket.id !== ticketId);
-          currentTicketStorage.setItem("tickets", encryptData(allTickets));
-          updateDisplayedTickets();
-        }
+        showConfirm(
+          `Are you sure you want to delete ticket ${ticketId}? This action cannot be undone.`
+        ).then((confirmed) => {
+          if (confirmed) {
+            const tickets =
+              decryptData(currentTicketStorage.getItem("tickets")) || [];
+            allTickets = tickets.filter((ticket) => ticket.id !== ticketId);
+            currentTicketStorage.setItem("tickets", encryptData(allTickets));
+            updateDisplayedTickets();
+            showAlert(`Ticket ${ticketId} has been deleted.`, "success");
+          }
+        });
       } else if (targetButton.classList.contains("more-info-button")) {
+        const date = new Date(ticket.dateCreated);
+        const formattedModalDate = `${date.toLocaleDateString(
+          "en-KE"
+        )} ${date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })}`;
         modalBody.innerHTML = `
             <h3>Ticket Details: ${ticket.id}</h3>
             <div class="detail-grid">
@@ -1038,32 +1278,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 <strong>Attachments:</strong> <div class="attachments-container">${
                   attachments.length > 0
                     ? attachments
-                        .map((att) => {
-                          if (att.type.startsWith("image/")) {
-                            return `
-                              <div class="attachment-preview">
-                                <a href="${att.content}" target="_blank" rel="noopener noreferrer">
-                                  <img src="${att.content}" alt="Preview of ${att.name}" class="attachment-thumbnail">
-                                </a>
-                                <a href="${att.content}" download="${att.name}">${att.name}</a>
-                              </div>
-                            `;
-                          } else if (att.type === "application/pdf") {
-                            return `
-                              <div class="attachment-preview">
-                                <svg class="attachment-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H8V4H20V16ZM4 6H2V20C2 21.1 2.9 22 4 22H18V20H4V6ZM14 12V9C14 8.45 13.55 8 13 8H10.5C9.95 8 9.5 8.45 9.5 9V12C9.5 12.55 9.95 13 10.5 13H11V15H12.5V13H13C13.55 13 14 12.55 14 12ZM12.5 11.5H11V9.5H12.5V11.5Z" fill="#D32F2F"/></svg>
-                                <a href="${att.content}" download="${att.name}">${att.name}</a>
-                              </div>
-                            `;
-                          }
-                          return `<div class="attachment-preview"><a href="${att.content}" download="${att.name}">${att.name}</a></div>`;
-                        })
+                        .map((att) =>
+                          att.type.startsWith("image/")
+                            ? `
+                            <div class="attachment-preview">
+                              <a href="${att.content}" target="_blank" rel="noopener noreferrer">
+                                <img src="${att.content}" alt="Preview of ${att.name}" class="attachment-thumbnail">
+                              </a>
+                              <a href="${att.content}" download="${att.name}">${att.name}</a>
+                            </div>`
+                            : `
+                            <div class="attachment-preview">
+                              <svg class="attachment-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM16 18H8V16H16V18ZM16 14H8V12H16V14ZM13 9V3.5L18.5 9H13Z" fill="#4F4F4F"/></svg>
+                              <a href="${att.content}" download="${att.name}">${att.name}</a>
+                            </div>`
+                        )
                         .join("")
                     : "<span>None</span>"
                 }</div>
-                <strong>Date Created:</strong> <span>${new Date(
-                  ticket.dateCreated
-                ).toLocaleString()}</span>
+                <strong>Date Created:</strong> <span>${formattedModalDate}</span>
             </div>
         `;
         openModal();
@@ -1332,7 +1565,7 @@ document.addEventListener("DOMContentLoaded", () => {
               console.log(
                 "Edit form validation failed. Preventing submission."
               );
-              return; // Stop submission if validation fails
+              return;
             }
 
             try {
@@ -1418,7 +1651,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    readStateFromUrl();
     updateDisplayedTickets();
+    updateFilterSortButtonsState();
   };
 
   applySavedSettings();

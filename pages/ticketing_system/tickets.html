@@ -14,6 +14,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <link rel="icon" type="image/png" href="../../assets/tatua-favicon.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="../../js/script.js" defer></script>
   </head>
   <body class="ticketing-page">
     <header class="site-header">
@@ -141,7 +143,6 @@
               <label>Column</label>
               <label>Relation</label>
               <label>Filter Value</label>
-              <!-- Placeholder for alignment with delete button -->
               <span class="action-header-placeholder"></span>
             </div>
           </div>
@@ -240,7 +241,17 @@
       </div>
     </div>
 
-    <script src="../../js/script.js"></script>
+    <div id="custom-confirm-modal" class="modal-overlay">
+      <div class="modal-content custom-confirm-content">
+        <button class="modal-close" title="Close">&times;</button>
+        <div class="confirm-message-body"></div>
+        <div class="confirm-actions">
+          <button type="button" class="confirm-cancel-button">Cancel</button>
+          <button type="button" class="confirm-ok-button">Confirm</button>
+        </div>
+      </div>
+    </div>
+
     <div id="custom-alert-modal" class="modal-overlay">
       <div class="modal-content custom-alert-content">
         <button class="modal-close" title="Close">&times;</button>
