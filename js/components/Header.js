@@ -1,8 +1,8 @@
 const mainNavLinks = [
   { text: "Home", href: "index.html" },
-  { text: "About Us", href: "about.html" },
-  { text: "Contact", href: "contact.html" },
-  { text: "Case Studies & Data Content", href: "case_studies.html" },
+  { text: "About Us", href: "./pages/about.html" },
+  { text: "Contact", href: "./pages/contact.html" },
+  { text: "Case Studies & Data Content", href: "./pages/case_studies.html" },
 ];
 
 const ticketingNavLinks = [

@@ -4,7 +4,8 @@
   box-sizing: border-box;
   --input-width: 250px;
   --text-color: #000000;
-  --primary-color: #65558f;
+  --primary-button-color: #65558f;
+  --secondary-color: #f29407;
   --primary-hover-color: #2f243a;
   --cancel-button-bg: #6c757d;
   --alternate-text-color: #ffffff;
@@ -18,6 +19,7 @@
   --button-border-radius: 100px;
   --button-color: #5856d6;
   --body-bg-color: #f7f7f7;
+  --alt-table-body-bg: #f294072e;
 }
 body {
   background: var(--body-bg-color);
@@ -274,7 +276,7 @@ select {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--primary-button-color);
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -284,7 +286,7 @@ select {
 }
 
 .radio-option input[type="radio"]:checked + label::before {
-  border-color: var(--primary-color);
+  border-color: var(--primary-button-color);
 }
 
 .radio-option input[type="radio"]:focus-visible + label::before {
@@ -344,28 +346,8 @@ select {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.form-actions > button {
-  margin-top: 1rem;
-  background: var(--primary-color);
-  color: var(--alternate-text-color);
-  border-radius: 100px;
-  padding: 10px 24px;
-  height: 40px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.1px;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease;
-}
-
 .primary-button {
-  background: var(--primary-color);
+  background: var(--primary-button-color);
   color: var(--alternate-text-color);
   border-radius: 100px;
   padding: 10px 24px;
@@ -406,6 +388,7 @@ select {
 .table-container {
   padding-inline: 0;
   margin-top: 7px;
+  padding-top: 1rem;
 }
 
 .ticket-header {
@@ -616,6 +599,15 @@ tbody tr:hover {
   transform: scale(1.2);
 }
 
+.action-icon.active {
+  color: var(--primary-button-color);
+}
+
+.action-icon.active:hover {
+  color: var(--primary-hover-color);
+  transform: scale(1.2);
+}
+
 .action-icon:disabled,
 .action-icon:disabled:hover {
   color: #999999;
@@ -723,7 +715,7 @@ tbody tr:hover {
 
 #modal-body h3 {
   margin-top: 0;
-  color: var(--primary-color);
+  color: var(--primary-button-color);
 }
 
 #modal-body .detail-grid {
@@ -779,7 +771,7 @@ tbody tr:hover {
   background-color: #e9e9e9;
 }
 .current-attachment-item.active {
-  background-color: var(--primary-color);
+  background-color: var(--primary-button-color);
   color: var(--alternate-text-color);
   border: 1px solid var(--primary-hover-color);
 }
@@ -1280,7 +1272,7 @@ select {
 
 .loader {
   border: 4px solid #f3f3f3;
-  border-top: 4px solid var(--primary-color);
+  border-top: 4px solid var(--primary-button-color);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -1289,62 +1281,11 @@ select {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-@media (max-width: 768px) {
-  thead {
-    display: none;
+  0% {
+    transform: rotate(0deg);
   }
-
-  tr {
-    display: block;
-    margin-bottom: 1rem;
-    border: 1px solid #e0e0e0;
-    border-radius: var(--tr-border-radius);
-    width: calc(100vw * 0.9);
-  }
-
-  td {
-    display: block;
-    text-align: right;
-    border-bottom: 1px solid #f0f0f0;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 1rem;
-    font-weight: bold;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  td:last-child {
-    border-bottom: none;
-  }
-
-  .ticket-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  main .form-group {
-    grid-template-columns: 1fr;
-  }
-
-  main .form-group-checkbox {
-    padding-left: 0;
-  }
-
-  main .form-actions {
-    padding-left: 0;
-  }
-
-  main .primary-button {
-    width: 100%;
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -1416,6 +1357,130 @@ select {
   font-size: 0.8rem;
   color: var(--hint-color);
   margin-bottom: 1rem;
+}
+/*People page styles*/
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.pagination-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagination-link {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  min-width: 38px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--primary-button-color);
+  background-color: var(--alternate-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--input-border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  font-size: 14px;
+}
+
+.pagination-link:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #adadad;
+}
+
+.pagination-item.active .pagination-link {
+  background-color: var(--button-color);
+  color: var(--alternate-text-color);
+  border-color: var(--primary-button-color);
+  font-weight: bold;
+  cursor: default;
+}
+
+.pagination-link:disabled {
+  color: var(--hint-color);
+  cursor: not-allowed;
+  background-color: #f7f7f7;
+}
+
+.pagination-item.ellipsis .pagination-link {
+  border: none;
+  background: none;
+  cursor: default;
+}
+#people-section-table-container > .ticket-table > thead {
+  border-bottom: 2px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+#people-section-table-container > .ticket-table > thead > tr > th {
+  color: var(--secondary-color);
+}
+#people-section-table-container > .ticket-table > tbody > tr:hover {
+  background-color: var(--hover-bg-color);
+}
+#people-section-table-container > .ticket-table > tbody {
+  color: var(--text-color);
+  background: var(--alt-table-body-bg);
+}
+@media (max-width: 768px) {
+  thead {
+    display: none;
+  }
+
+  tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: var(--tr-border-radius);
+    width: calc(100vw * 0.9);
+  }
+
+  td {
+    display: block;
+    text-align: right;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  td:last-child {
+    border-bottom: none;
+  }
+
+  .ticket-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  main .form-group {
+    grid-template-columns: 1fr;
+  }
+
+  main .form-group-checkbox {
+    padding-left: 0;
+  }
+
+  main .form-actions {
+    padding-left: 0;
+  }
+
+  main .primary-button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 1024px) {

@@ -42,10 +42,106 @@ export const createDataTableComponent = ({
       onClear: () => {
         activeSorts = [];
         skip = 0;
+        updateUrlWithState();
         renderLoading();
         fetchData();
       },
     });
+  };
+
+  const updateUrlWithState = () => {
+    const url = new URL(window.location);
+    const params = new URLSearchParams(url.search);
+
+    if (activeFilters.length > 0) {
+      params.set("filters", btoa(JSON.stringify(activeFilters)));
+    } else {
+      params.delete("filters");
+    }
+
+    if (activeSorts.length > 0) {
+      params.set("sorts", btoa(JSON.stringify(activeSorts)));
+    } else {
+      params.delete("sorts");
+    }
+
+    if (skip > 0) {
+      params.set("page", skip / pageSize + 1);
+    } else {
+      params.delete("page");
+    }
+
+    const newSearch = params.toString();
+    const newUrl = `${window.location.pathname}${
+      newSearch ? `?${newSearch}` : ""
+    }`;
+    history.replaceState({}, "", newUrl);
+  };
+
+  const readStateFromUrl = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedFilters = urlParams.get("filters");
+    const encodedSorts = urlParams.get("sorts");
+    const page = urlParams.get("page");
+
+    if (encodedFilters) {
+      try {
+        activeFilters = JSON.parse(atob(encodedFilters));
+      } catch (e) {
+        console.error("Failed to parse filters from URL", e);
+        activeFilters = [];
+      }
+    }
+
+    if (encodedSorts) {
+      try {
+        activeSorts = JSON.parse(atob(encodedSorts));
+      } catch (e) {
+        console.error("Failed to parse sorts from URL", e);
+        activeSorts = [];
+      }
+    }
+
+    if (page) {
+      const pageNumber = parseInt(page, 10);
+      if (!isNaN(pageNumber) && pageNumber > 0) {
+        skip = (pageNumber - 1) * pageSize;
+      }
+    }
+  };
+
+  const handlePageClick = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > Math.ceil(totalCount / pageSize)) return;
+    skip = (pageNumber - 1) * pageSize;
+    updateUrlWithState();
+    renderLoading();
+    fetchData();
+  };
+
+  const getPageNumbers = (totalPages, currentPage) => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    const delta = 2;
+    const left = currentPage - delta;
+    const right = currentPage + delta;
+    const range = [];
+    const rangeWithDots = [];
+    let l;
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= left && i <= right)) {
+        range.push(i);
+      }
+    }
+
+    for (const i of range) {
+      if (l && i - l !== 1) rangeWithDots.push("...");
+      rangeWithDots.push(i);
+      l = i;
+    }
+    return rangeWithDots;
   };
 
   const renderLoading = () => {
@@ -64,6 +160,38 @@ export const createDataTableComponent = ({
   };
 
   const render = (data, count) => {
+    const totalPages = Math.ceil(count / pageSize);
+    const currentPage = skip / pageSize + 1;
+    const pageNumbers = getPageNumbers(totalPages, currentPage);
+
+    let paginationHTML = "";
+    if (totalPages > 1) {
+      paginationHTML = `
+        <nav class="pagination-container" aria-label="Table navigation">
+          <ul class="pagination-list">
+            <li class="pagination-item">
+              <button class="pagination-link prev-button" ${
+                currentPage === 1 ? "disabled" : ""
+              } data-page="${currentPage - 1}" aria-label="Previous page">Previous</button>
+            </li>
+            ${pageNumbers
+              .map((page) => {
+                if (page === "...") {
+                  return `<li class="pagination-item ellipsis" aria-disabled="true"><span class="pagination-link">...</span></li>`;
+                }
+                return `
+                  <li class="pagination-item ${page === currentPage ? "active" : ""}">
+                    <button class="pagination-link" data-page="${page}" ${page === currentPage ? 'aria-current="page"' : ""} aria-label="Go to page ${page}">${page}</button>
+                  </li>`;
+              })
+              .join("")}
+            <li class="pagination-item">
+              <button class="pagination-link next-button" ${currentPage === totalPages ? "disabled" : ""} data-page="${currentPage + 1}" aria-label="Next page">Next</button>
+            </li>
+          </ul>
+        </nav>`;
+    }
+
     section.innerHTML = `
       <div class="ticket-header">
         <h2>${title}</h2>
@@ -89,17 +217,7 @@ export const createDataTableComponent = ({
         </div>
       </div>
       <div id="${containerId}-table-container"></div>
-      <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-        <button id="${containerId}-prev-page" class="primary-button" ${
-      skip === 0 ? "disabled" : ""
-    }>Previous</button>
-        <span>Page ${count > 0 ? skip / pageSize + 1 : 0} of ${Math.ceil(
-      count / pageSize
-    )}</span>
-        <button id="${containerId}-next-page" class="primary-button" ${
-      skip + pageSize >= count ? "disabled" : ""
-    }>Next</button>
-      </div>
+      ${paginationHTML}
     `;
 
     const tableContainerId = `${containerId}-table-container`;
@@ -111,26 +229,16 @@ export const createDataTableComponent = ({
       ).innerHTML = `<p style="text-align: center;">No data found matching the criteria.</p>`;
     }
 
-    document
-      .getElementById(`${containerId}-prev-page`)
-      .addEventListener("click", () => {
-        if (skip > 0) {
-          skip -= pageSize;
-          renderLoading();
-          fetchData();
+    section
+      .querySelector(".pagination-container")
+      ?.addEventListener("click", (e) => {
+        const target = e.target.closest(".pagination-link");
+        if (!target || target.disabled) return;
+        const page = parseInt(target.dataset.page, 10);
+        if (!isNaN(page)) {
+          handlePageClick(page);
         }
       });
-
-    document
-      .getElementById(`${containerId}-next-page`)
-      .addEventListener("click", () => {
-        if (skip + pageSize < totalCount) {
-          skip += pageSize;
-          renderLoading();
-          fetchData();
-        }
-      });
-
     initializeModals();
     updateButtonStates();
   };
@@ -142,6 +250,10 @@ export const createDataTableComponent = ({
     if (activeFilters.length > 0) {
       const filterClauses = activeFilters
         .map((f) => {
+          if (f.field === 'Gender' && (f.operator === 'starts_with' || f.operator === 'ends_with' || f.operator === 'contains')) {
+            showAlert(`The "${f.operator}" operator is not supported for the "Gender" field. Please use "is" or "is not".`, 'error');
+            return '';
+          }
           const value = typeof f.value === "string" ? `'${f.value}'` : f.value;
           switch (f.operator) {
             case "is":
@@ -196,12 +308,14 @@ export const createDataTableComponent = ({
       onApply: (filters) => {
         activeFilters = filters;
         skip = 0;
+        updateUrlWithState();
         renderLoading();
         fetchData();
       },
       onClear: () => {
         activeFilters = [];
         skip = 0;
+        updateUrlWithState();
         renderLoading();
         fetchData();
       },
@@ -213,6 +327,7 @@ export const createDataTableComponent = ({
         activeFilters = [];
         activeSorts = [];
         skip = 0;
+        updateUrlWithState();
         renderLoading();
         fetchData();
       },
@@ -226,18 +341,21 @@ export const createDataTableComponent = ({
       onApply: (sorts) => {
         activeSorts = sorts;
         skip = 0;
+        updateUrlWithState();
         renderLoading();
         fetchData();
       },
       onClear: () => {
         activeSorts = [];
         skip = 0;
+        updateUrlWithState();
         renderLoading();
         fetchData();
       },
     });
   };
 
+  readStateFromUrl();
   renderLoading();
   fetchData();
 };

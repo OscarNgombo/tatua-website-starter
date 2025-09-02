@@ -49,14 +49,16 @@ export const initSortModal = ({
           <option value="" disabled ${
             !sort.field ? "selected" : ""
           } hidden>Select Column</option>
-          ${columns
-            .map(
-              (c) =>
-                `<option value="${c.value}" ${
-                  sort.field === c.value ? "selected" : ""
-                }>${c.text}</option>`
-            )
-            .join("")}
+          ${
+            columns
+              .map(
+                (c) =>
+                  `<option value="${c.value}" ${
+                    sort.field === c.value ? "selected" : ""
+                  }>${c.text}</option>`
+              )
+              .join("")
+          }
         </select>
       </div>
       <div class="sort-control">
@@ -84,7 +86,10 @@ export const initSortModal = ({
     updateHeaderVisibility();
   };
 
-  addSortButton.addEventListener("click", () => addSortRow());
+  if (!addSortButton.dataset.initialized) {
+    addSortButton.addEventListener("click", addSortRow);
+    addSortButton.dataset.initialized = "true";
+  }
 
   applySortsButton.addEventListener("click", () => {
     const activeSorts = Array.from(

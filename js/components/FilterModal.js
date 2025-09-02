@@ -51,14 +51,16 @@ export const initFilterModal = ({
           <option value="" disabled ${
             !filter.field ? "selected" : ""
           } hidden>Select Column</option>
-          ${columns
-            .map(
-              (c) =>
-                `<option value="${c.value}" ${
-                  filter.field === c.value ? "selected" : ""
-                }>${c.text}</option>`
-            )
-            .join("")}
+          ${
+            columns
+              .map(
+                (c) =>
+                  `<option value="${c.value}" ${
+                    filter.field === c.value ? "selected" : ""
+                  }>${c.text}</option>`
+              )
+              .join("")
+          }
         </select>
       </div>
       <div class="filter-control">
@@ -100,7 +102,10 @@ export const initFilterModal = ({
     updateHeaderVisibility();
   };
 
-  addFilterButton.addEventListener("click", () => addFilterRow());
+  if (!addFilterButton.dataset.initialized) {
+    addFilterButton.addEventListener("click", addFilterRow);
+    addFilterButton.dataset.initialized = "true";
+  }
 
   applyFiltersButton.addEventListener("click", () => {
     const activeFilters = Array.from(

@@ -349,6 +349,20 @@ export const handleTicketFormSubmission = (currentTicketStorage) => {
       submitButton.textContent = "Save Changes";
     }
 
+    const attachmentInput = document.getElementById("attachment");
+    if (attachmentInput) {
+      attachmentInput.required = false;
+    }
+
+    const termsContainer = ticketForm.querySelector(".conditions-container");
+    if (termsContainer) {
+      const termsError = termsContainer.nextElementSibling;
+      if (termsError && termsError.classList.contains("error-message")) {
+        termsError.remove();
+      }
+      termsContainer.remove();
+    }
+
     const tickets = decryptData(currentTicketStorage.getItem("tickets")) || [];
     const ticketToEdit = tickets.find((t) => t.id === ticketIdToEdit);
 

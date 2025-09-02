@@ -7,6 +7,8 @@ import { showAlert, showConfirm } from "../utils/ui.js";
 import { encryptData, decryptData } from "../utils/crypto.js";
 import { renderHeader } from "../components/Header.js";
 
+const PAGE_SIZE = 10;
+
 export const handleMyTicketsPage = (currentTicketStorage) => {
   renderHeader({
     type: "ticketing",
@@ -44,6 +46,8 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
       </div>
     </div>
     <div id="table-container"></div>
+    <div class="pagination-controls" style="display: none; justify-content: space-between; align-items: center; margin-top: 1rem;">
+    </div>
   `;
 
   const ticketHeader = ticketSection.querySelector(".ticket-header");
@@ -51,6 +55,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
   let allTickets = decryptData(currentTicketStorage.getItem("tickets")) || [];
   let activeFilters = [];
   let activeSorts = [];
+  let skip = 0;
 
   const updateUrlWithState = () => {
     const url = new URL(window.location);
@@ -68,6 +73,12 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
       params.delete("sorts");
     }
 
+    if (skip > 0) {
+      params.set("page", skip / PAGE_SIZE + 1);
+    } else {
+      params.delete("page");
+    }
+
     const newSearch = params.toString();
     const newUrl = `${window.location.pathname}${
       newSearch ? `?${newSearch}` : ""
@@ -80,6 +91,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
     const urlParams = new URLSearchParams(window.location.search);
     const encodedFilters = urlParams.get("filters");
     const encodedSorts = urlParams.get("sorts");
+    const page = urlParams.get("page");
 
     if (encodedFilters) {
       try {
@@ -97,6 +109,12 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
         console.error("Failed to parse sorts from URL", e);
         activeSorts = [];
       }
+    }
+
+    if (page) {
+      const pageNumber = parseInt(page, 10);
+      if (!isNaN(pageNumber) && pageNumber > 0)
+        skip = (pageNumber - 1) * PAGE_SIZE;
     }
   };
 
@@ -166,12 +184,12 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
 <path d="M3.33337 13.3333H12.6667V12H3.33337M12.6667 6H10V2H6.00004V6H3.33337L8.00004 10.6667L12.6667 6Z" fill="#444054"/>
 </svg>
 </button>
-            <button class="action-icon call-button" title="Call User" ${
-              ticket.contact_method === "phone" ? "active" : "inactive"
-            }><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.41333 7.19333C5.37333 9.08 6.92 10.6267 8.80667 11.5867L10.2733 10.12C10.46 9.93333 10.72 9.88 10.9533 9.95333C11.7 10.2 12.5 10.3333 13.3333 10.3333C13.5101 10.3333 13.6797 10.4036 13.8047 10.5286C13.9298 10.6536 14 10.8232 14 11V13.3333C14 13.5101 13.9298 13.6797 13.8047 13.8047C13.6797 13.9298 13.5101 14 13.3333 14C10.3275 14 7.44487 12.806 5.31946 10.6805C3.19404 8.55513 2 5.67245 2 2.66667C2 2.48986 2.07024 2.32029 2.19526 2.19526C2.32029 2.07024 2.48986 2 2.66667 2H5C5.17681 2 5.34638 2.07024 5.4714 2.19526C5.59643 2.32029 5.66667 2.48986 5.66667 2.66667C5.66667 3.5 5.8 4.3 6.04667 5.04667C6.12 5.28 6.06667 5.54 5.88 5.72667L4.41333 7.19333Z" fill="#999999"/></svg></button>
-            <button class="action-icon email-button" title="Email User" ${
-              ticket.contact_method === "email" ? "active" : "inactive"
-            }><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.6667 3.66669H6C5.26667 3.66669 4.66667 4.26669 4.66667 5.00002V11C4.66667 11.74 5.26667 12.3334 6 12.3334H14.6667C15.4067 12.3334 16 11.74 16 11V5.00002C16 4.26669 15.4067 3.66669 14.6667 3.66669ZM14.6667 11H6V6.11335L10.3333 8.33335L14.6667 6.11335V11ZM10.3333 7.20669L6 5.00002H14.6667L10.3333 7.20669ZM3.33333 11C3.33333 11.1134 3.35333 11.22 3.36667 11.3334H0.666667C0.298667 11.3334 0 11.0334 0 10.6667C0 10.3 0.298667 10 0.666667 10H3.33333V11ZM2 4.66669H3.36667C3.35333 4.78002 3.33333 4.88669 3.33333 5.00002V6.00002H2C1.63333 6.00002 1.33333 5.70002 1.33333 5.33335C1.33333 4.96669 1.63333 4.66669 2 4.66669ZM0.666667 8.00002C0.666667 7.63335 0.966667 7.33335 1.33333 7.33335H3.33333V8.66669H1.33333C0.966667 8.66669 0.666667 8.36669 0.666667 8.00002Z" fill="#444054"/></svg></button>
+            <button class="action-icon call-button ${
+              ticket.contact_method === "phone" ? "active" : ""
+            }" title="Call User"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.41333 7.19333C5.37333 9.08 6.92 10.6267 8.80667 11.5867L10.2733 10.12C10.46 9.93333 10.72 9.88 10.9533 9.95333C11.7 10.2 12.5 10.3333 13.3333 10.3333C13.5101 10.3333 13.6797 10.4036 13.8047 10.5286C13.9298 10.6536 14 10.8232 14 11V13.3333C14 13.5101 13.9298 13.6797 13.8047 13.8047C13.6797 13.9298 13.5101 14 13.3333 14C10.3275 14 7.44487 12.806 5.31946 10.6805C3.19404 8.55513 2 5.67245 2 2.66667C2 2.48986 2.07024 2.32029 2.19526 2.19526C2.32029 2.07024 2.48986 2 2.66667 2H5C5.17681 2 5.34638 2.07024 5.4714 2.19526C5.59643 2.32029 5.66667 2.48986 5.66667 2.66667C5.66667 3.5 5.8 4.3 6.04667 5.04667C6.12 5.28 6.06667 5.54 5.88 5.72667L4.41333 7.19333Z" fill="currentColor"/></svg></button>
+            <button class="action-icon email-button ${
+              ticket.contact_method === "email" ? "active" : ""
+            }" title="Email User"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.6667 3.66669H6C5.26667 3.66669 4.66667 4.26669 4.66667 5.00002V11C4.66667 11.74 5.26667 12.3334 6 12.3334H14.6667C15.4067 12.3334 16 11.74 16 11V5.00002C16 4.26669 15.4067 3.66669 14.6667 3.66669ZM14.6667 11H6V6.11335L10.3333 8.33335L14.6667 6.11335V11ZM10.3333 7.20669L6 5.00002H14.6667L10.3333 7.20669ZM3.33333 11C3.33333 11.1134 3.35333 11.22 3.36667 11.3334H0.666667C0.298667 11.3334 0 11.0334 0 10.6667C0 10.3 0.298667 10 0.666667 10H3.33333V11ZM2 4.66669H3.36667C3.35333 4.78002 3.33333 4.88669 3.33333 5.00002V6.00002H2C1.63333 6.00002 1.33333 5.70002 1.33333 5.33335C1.33333 4.96669 1.63333 4.66669 2 4.66669ZM0.666667 8.00002C0.666667 7.63335 0.966667 7.33335 1.33333 7.33335H3.33333V8.66669H1.33333C0.966667 8.66669 0.666667 8.36669 0.666667 8.00002Z" fill="currentColor"/></svg></button>
             <button class="action-icon edit-button" title="Edit Ticket"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.57333 14.2867L6 14.6667L4 13.3333L2 14.6667V2H14V6.8C13.58 6.62 13.0933 6.62 12.6667 6.81333V3.33333H3.33333V12.1733L4 11.7333L6 13.0667L6.57333 12.6667V14.2867ZM7.90667 13.3067L12 9.22L13.3533 10.58L9.26667 14.6667H7.90667V13.3067ZM14.4733 9.46L13.82 10.1133L12.46 8.75333L13.1133 8.1L13.12 8.09333L13.1267 8.08667C13.24 7.98 13.4133 7.97333 13.54 8.06C13.56 8.06667 13.58 8.08667 13.5933 8.1L14.4733 8.98C14.6067 9.11333 14.6067 9.33333 14.4733 9.46ZM11.3333 6V4.66667H4.66667V6H11.3333ZM10 8.66667V7.33333H4.66667V8.66667H10Z" fill="#444054"/></svg></button>
             <button class="action-icon delete-button" title="Delete Ticket"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.99996 2V2.66667H2.66663V4H3.33329V12.6667C3.33329 13.0203 3.47377 13.3594 3.72382 13.6095C3.97387 13.8595 4.313 14 4.66663 14H11.3333C11.6869 14 12.0261 13.8595 12.2761 13.6095C12.5261 13.3594 12.6666 13.0203 12.6666 12.6667V4H13.3333V2.66667H9.99996V2H5.99996ZM4.66663 4H11.3333V12.6667H4.66663V4ZM5.99996 5.33333V11.3333H7.33329V5.33333H5.99996ZM8.66663 5.33333V11.3333H9.99996V5.33333H8.66663Z" fill="#FF3B30"/></svg></button>
           </div>
@@ -181,8 +199,18 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
   ];
 
   const updateDisplayedTickets = () => {
+    // Hide filter/sort/refresh header if there are no tickets at all.
     if (ticketHeader) {
-      ticketHeader.style.display = allTickets.length > 1 ? "flex" : "none";
+      ticketHeader.style.display = allTickets.length > 0 ? "flex" : "none";
+    }
+
+    // Add extra top margin/padding to the body if no tickets exist to enhance layout.
+    if (allTickets.length === 0) {
+      document.body.style.marginTop = "2rem";
+      document.body.style.paddingTop = "2rem";
+    } else {
+      document.body.style.marginTop = "";
+      document.body.style.paddingTop = "";
     }
 
     let ticketsToDisplay = [...allTickets];
@@ -233,12 +261,57 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
       });
     }
 
+    const totalCount = ticketsToDisplay.length;
+    const paginationControls = ticketSection.querySelector(
+      ".pagination-controls"
+    );
+
+    if (totalCount > PAGE_SIZE) {
+      paginationControls.style.display = "flex";
+      const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+      const currentPage = skip / PAGE_SIZE + 1;
+
+      paginationControls.innerHTML = `
+            <button id="tickets-prev-page" class="primary-button" ${
+              skip === 0 ? "disabled" : ""
+            }>Previous</button>
+            <span>Page ${currentPage} of ${totalPages}</span>
+            <button id="tickets-next-page" class="primary-button" ${
+              skip + PAGE_SIZE >= totalCount ? "disabled" : ""
+            }>Next</button>
+        `;
+
+      document
+        .getElementById("tickets-prev-page")
+        .addEventListener("click", () => {
+          if (skip > 0) {
+            skip -= PAGE_SIZE;
+            updateDisplayedTickets();
+            updateUrlWithState();
+          }
+        });
+
+      document
+        .getElementById("tickets-next-page")
+        .addEventListener("click", () => {
+          if (skip + PAGE_SIZE < totalCount) {
+            skip += PAGE_SIZE;
+            updateDisplayedTickets();
+            updateUrlWithState();
+          }
+        });
+    } else {
+      paginationControls.style.display = "none";
+    }
+
+    const paginatedTickets = ticketsToDisplay.slice(skip, skip + PAGE_SIZE);
+
     const noTicketsMessage =
       activeFilters.length > 0 || activeSorts.length > 0
         ? "No tickets match the current criteria."
         : "No tickets have been submitted yet.";
 
-    if (ticketsToDisplay.length === 0) {
+    if (paginatedTickets.length === 0) {
       const headerHtml = columns
         .map((col) => `<th>${col.header}</th>`)
         .join("");
@@ -247,12 +320,14 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
           <thead><tr>${headerHtml}</tr></thead>
           <tbody>
             <tr>
-              <td colspan="${columns.length}" style="text-align: center;">${noTicketsMessage}</td>
+              <td colspan="${columns.length}" style="text-align: center;">${
+        totalCount > 0 ? "No tickets on this page." : noTicketsMessage
+      }</td>
             </tr>
           </tbody>
         </table>`;
     } else {
-      createTable("table-container", columns, ticketsToDisplay);
+      createTable("table-container", columns, paginatedTickets);
     }
   };
 
@@ -262,6 +337,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
       allTickets = decryptData(currentTicketStorage.getItem("tickets")) || [];
       activeFilters = [];
       activeSorts = [];
+      skip = 0;
       updateDisplayedTickets();
       updateButtonStates();
       updateUrlWithState();
@@ -293,6 +369,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
       name: "Filter",
       onClear: () => {
         activeFilters = [];
+        skip = 0;
         updateDisplayedTickets();
         updateButtonStates();
         updateUrlWithState();
@@ -304,6 +381,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
       name: "Sort",
       onClear: () => {
         activeSorts = [];
+        skip = 0;
         updateDisplayedTickets();
         updateButtonStates();
         updateUrlWithState();
@@ -438,6 +516,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
     initialFilters: activeFilters,
     onApply: (filters) => {
       activeFilters = filters;
+      skip = 0;
       updateDisplayedTickets();
       updateButtonStates();
       updateUrlWithState();
@@ -445,6 +524,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
     onClear: () => {
       activeFilters = [];
       updateDisplayedTickets();
+      skip = 0;
       updateButtonStates();
       updateUrlWithState();
     },
@@ -457,6 +537,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
     initialSorts: activeSorts,
     onApply: (sorts) => {
       activeSorts = sorts;
+      skip = 0;
       updateDisplayedTickets();
       updateButtonStates();
       updateUrlWithState();
@@ -464,6 +545,7 @@ export const handleMyTicketsPage = (currentTicketStorage) => {
     onClear: () => {
       activeSorts = [];
       updateDisplayedTickets();
+      skip = 0;
       updateButtonStates();
       updateUrlWithState();
     },

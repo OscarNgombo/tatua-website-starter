@@ -3,6 +3,7 @@ import { initAuth } from "./auth.js";
 import { handleTicketFormSubmission } from "./pages/ticket-form.js";
 import { handleMyTicketsPage } from "./pages/tickets-page.js";
 import { handlePeoplePage } from "./pages/people-page.js";
+import { handleAboutPage } from "./pages/about-page.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Determine which storage to use based on URL query parameter
@@ -43,5 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (document.getElementById("people-section")) {
     handlePeoplePage();
+  }
+
+  if (document.querySelector(".about-main")) {
+    handleAboutPage();
   }
 });
