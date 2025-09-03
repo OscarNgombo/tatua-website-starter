@@ -3,10 +3,7 @@ const applySavedSettings = () => {
   setTheme(savedTheme !== "brown");
   const savedFontScale = localStorage.getItem("fontScale");
   if (savedFontScale) {
-    document.documentElement.style.setProperty(
-      "--font-scale",
-      savedFontScale
-    );
+    document.documentElement.style.setProperty("--font-scale", savedFontScale);
     const fontSlider = document.getElementById("font-slider");
     if (fontSlider) {
       fontSlider.value = savedFontScale;
@@ -25,10 +22,12 @@ const setTheme = (purple) => {
       "--primary-50": "var(--purple-50)",
       "--primary-100": "var(--purple-100)",
       "--primary-200": "var(--purple-200)",
+      "--primary-300": "var(--purple-300)",
       "--primary-400": "var(--purple-400)",
       "--primary-500": "var(--purple-500)",
       "--primary-600": "var(--purple-600)",
       "--primary-700": "var(--purple-700)",
+      "--primary-800": "var(--purple-800)",
       "--primary-900": "var(--purple-900)",
       "--orange-light": "var(--orange-200)",
     },
@@ -38,10 +37,12 @@ const setTheme = (purple) => {
       "--primary-50": "var(--brown-50)",
       "--primary-100": "var(--brown-100)",
       "--primary-200": "var(--brown-200)",
+      "--primary-300": "var(--brown-300)",
       "--primary-400": "var(--brown-400)",
       "--primary-500": "var(--brown-500)",
       "--primary-600": "var(--brown-600)",
       "--primary-700": "var(--brown-700)",
+      "--primary-800": "var(--brown-800)",
       "--primary-900": "var(--brown-900)",
       "--orange-light": "var(--brown-200)",
     },

@@ -5,14 +5,14 @@ import { updateStatefulButton } from "../components/StatefulButton.js";
 import { initRefreshButton } from "../components/RefreshButton.js";
 import { showAlert, showConfirm } from "../utils/ui.js";
 import { encryptData, decryptData } from "../utils/crypto.js";
-import { renderHeader } from "../components/Header.js";
+import { renderNavbar } from "../components/Navbar.js";
 
 const PAGE_SIZE = 10;
 
 export const handleMyTicketsPage = (currentTicketStorage) => {
-  renderHeader({
+  renderNavbar({
     type: "ticketing",
-    activePage: "Tickets List",
+    activePage: "tickets.html",
     basePath: "../../",
   });
 
