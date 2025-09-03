@@ -1,5 +1,5 @@
 import { createDataTableComponent } from "../components/DataTable.js";
-import { renderHeader } from "../components/Header.js";
+import { renderNavbar } from "../components/Navbar.js";
 
 const API_BASE_URL =
   "https://services.odata.org/TripPinRESTierService/(S(txgzuyguqicvbxfmod212gyk))/People";
@@ -24,9 +24,9 @@ const TABLE_COLUMNS = [
 ];
 
 export const handlePeoplePage = () => {
-  renderHeader({
+  renderNavbar({
     type: "ticketing",
-    activePage: "People Data",
+    activePage: "people.html",
     basePath: "../../",
   });
 

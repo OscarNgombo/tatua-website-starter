@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account - Tatua Solutions</title>
+    <meta
+      name="description"
+      content="Create a new account to access Tatua's ticketing system."
+    />
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/images/tatua-favicon.png"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
+  </head>
+  <body>
+    <header id="header-placeholder" class="site-header"></header>
+
+    <main class="login-main register-main">
+      <section class="login-section">
+        <div class="login-container">
+          <h2>Create Your Account</h2>
+          <p>Join Tatua and start streamlining your support today.</p>
+          <form class="register-form">
+            <div class="form-group">
+              <label for="full-name">Full Name</label>
+              <input
+                type="text"
+                id="full-name"
+                name="full_name"
+                required
+                placeholder="e.g., Jane Doe"
+              />
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                placeholder="e.g., janedoe"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="you@company.com"
+              />
+              <div class="error-message"></div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                placeholder="Create a strong password"
+              />
+              <div id="password-strength-feedback" class="password-feedback">
+                <div id="password-strength-bar-container">
+                  <div id="password-strength-bar"></div>
+                </div>
+                <span id="password-strength-text"></span>
+                <ul id="password-criteria">
+                  <li id="length">At least 8 characters</li>
+                  <li id="lowercase">A lowercase letter</li>
+                  <li id="uppercase">An uppercase letter</li>
+                  <li id="number">A number</li>
+                  <li id="special">A special character (!@#$%^&*)</li>
+                </ul>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="re-password">Repeat Password</label>
+              <input
+                type="password"
+                id="re-password"
+                name="re-password"
+                required
+                placeholder="Must match the previous password"
+              />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="primary-button">
+                Create Account
+              </button>
+            </div>
+            <div class="login-links">
+              <span>Already have an account?</span>
+              <a href="login.html">Login here</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer-placeholder"></footer>
+  </body>
+</html>

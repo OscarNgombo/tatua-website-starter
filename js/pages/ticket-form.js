@@ -1,11 +1,11 @@
 import { showAlert } from "../utils/ui.js";
 import { encryptData, decryptData } from "../utils/crypto.js";
-import { renderHeader } from "../components/Header.js";
+import { renderNavbar } from "../components/Navbar.js";
 
 export const handleTicketFormSubmission = (currentTicketStorage) => {
-  renderHeader({
+  renderNavbar({
     type: "ticketing",
-    activePage: "Raise Ticket",
+    activePage: "raise_ticket.html",
     basePath: "../../",
   });
 

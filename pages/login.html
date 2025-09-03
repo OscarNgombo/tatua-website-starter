@@ -8,71 +8,21 @@
       name="description"
       content="Access your Tatua account to manage support tickets and settings."
     />
-      <link rel="stylesheet" href="../styles/styles.css" />
+    <link rel="stylesheet" href="../styles/styles.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <link rel="icon" type="image/png" href="../assets/tatua-favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/images/tatua-favicon.png"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
   </head>
   <body>
-    <header class="site-header">
-      <div class="main-header-content">
-        <a href="../index.html" class="nav-logo">
-          <img
-            src="../assets/images/tatua-logo.png"
-            alt="Tatua Solutions Logo"
-          />
-        </a>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-        <label for="nav-toggle" class="nav-toggle-label">
-          <span></span>
-          <span></span>
-          <span></span>
-        </label>
-        <nav class="main-nav">
-          <ul>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li>
-              <a href="case_studies.html"> Case Studies & Data Content</a>
-            </li>
-            <li id="login-nav-item"><a href="/pages/login.html" class="active">Login</a></li>
-            <li id="logout-nav-item" style="display: none;"><a href="#" id="logout-link">Logout</a></li>
-          </ul>
-          <li class="nav-controls">
-            <button id="theme-switcher" title="Toggle Theme">
-              <i class="fas fa-palette"></i>
-            </button>
-            <div id="font-control" title="Adjust Font Size">
-              Aa
-              <input
-                type="range"
-                id="font-slider"
-                min="0.8"
-                max="1.4"
-                step="0.1"
-                value="1"
-                style="
-                  vertical-align: middle;
-                  width: 60px;
-                  margin-left: 0.5rem;
-                "
-              />
-            </div>
-          </li>
-        </nav>
-      </div>
-      <div class="breadcrumb-container">
-        <nav aria-label="breadcrumb" class="breadcrumb-nav">
-          <ol>
-            <li><a href="../index.html">Home</a></li>
-            <li aria-current="page">Login</li>
-          </ol>
-        </nav>
-      </div>
-    </header>
+    <header id="header-placeholder" class="site-header"></header>
 
     <main class="login-main">
       <section class="login-section">
@@ -106,28 +56,13 @@
             <div class="login-links">
               <a href="#">Forgot Password?</a>
               <span>|</span>
-              <a href="#">Create an Account</a>
+              <a href="register.html">Create an Account</a>
             </div>
           </form>
         </div>
       </section>
     </main>
 
-    <footer>
-      <div>
-        <h3>Contact Information</h3>
-        <span> hello@tatua.com</span> <br />
-        <span> +1 (555) 123-4567</span>
-        <span>
-          <address>
-            <strong>Tatua Solutions Inc.</strong><br />
-            123 Innovation Drive, Suite 400<br />
-            San Francisco, CA 94105
-          </address>
-        </span>
-        <p>&copy; 2025 Tatua Solutions Inc.</p>
-      </div>
-    </footer>
-    <script type="module" src="../js/main.js"></script>
+    <footer id="footer-placeholder"></footer>
   </body>
 </html>
